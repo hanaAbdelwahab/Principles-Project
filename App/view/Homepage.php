@@ -1,7 +1,24 @@
-
 <?php
 // Start the session to enable access to session variables
 session_start();
+
+// Process logout request
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    // Unset all session variables
+    $_SESSION = [];
+    
+    // Destroy the session
+    session_destroy();
+    
+    // Set a logout message
+    session_start(); // Start a new session to store the message
+    $_SESSION['message'] = "You have been successfully logged out.";
+    $_SESSION['message_type'] = "success";
+    
+    // Redirect to login page
+    header("Location: App/view/Login.php");
+    exit();
+}
 
 // Check if user is logged in
 $isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
@@ -49,7 +66,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
                                 <li><a href="#"><i class="fas fa-user-circle"></i> My Profile</a></li>
                                 <li><a href="#"><i class="fas fa-car"></i> My Rentals</a></li>
                                 <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-                                <li class="logout"><a href="Logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                <li class="logout"><a href="index.php?action=logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                             </ul>
                         </div>
                     </div>

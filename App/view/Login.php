@@ -1,3 +1,4 @@
+<!-- Login.php -->
 <?php
 // Start the session for user authentication
 session_start();

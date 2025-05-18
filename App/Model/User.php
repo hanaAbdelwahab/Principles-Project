@@ -1,3 +1,4 @@
+<!-- Model/User.php -->
 <?php
 // Include database configuration
 require_once '../config/dp.php';
