@@ -1,13 +1,19 @@
 <?php
 // Start the session for user authentication
 session_start();
-
+// Check if there's a message from logout
+$message = null;
+$message_type = null;
 // Check if the user is already logged in
-if (isset($_SESSION['user_id'])) {
-    // Redirect to homepage if already logged in
-    header("Location: homepage.php");
-    exit();
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    $message_type = $_SESSION['message_type'];
+    
+    // Clear the message from session
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
 }
+
 
 // Include the UserController
 require_once '../Controller/UserController.php';

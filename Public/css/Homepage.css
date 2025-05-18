@@ -26,7 +26,174 @@ body {
     max-width: 1200px;
     margin: 0 auto;
 }
+.logo {
+    position: relative;
+    top: 5px; /* Adjust this value to move the logo down */
+}
 
+.logo a {
+    display: inline-block;
+}
+
+.logo img {
+    height: 60px; /* Increased from 40px to make it bigger */
+    vertical-align: middle;
+}
+/* User profile section styles */
+.welcome-message {
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.user-profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-icon {
+    width: 35px;
+    height: 35px;
+    background-color: #512da8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-icon i {
+    color: white;
+    font-size: 18px;
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 100;
+}
+
+.dropdown-menu.active {
+    display: block;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu ul li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu ul li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu ul li.user-info {
+    font-weight: bold;
+    background-color: #f7f7f7;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.dropdown-menu ul li a {
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.dropdown-menu ul li i {
+    margin-right: 10px;
+    color: #512da8;
+}
+
+.dropdown-menu ul li.logout a {
+    color: #e53935;
+}
+
+.dropdown-menu ul li.logout i {
+    color: #e53935;
+}
+
+.dropdown-menu ul li:hover {
+    background-color: #f9f9f9;
+}
+
+
+/* Fix z-index for the dropdown menu */
+.navbar {
+    position: relative;
+    z-index: 1000;
+}
+
+/* Additional styling for user profile */
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+/* Animation for dropdown */
+.dropdown-menu {
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu.active {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Mobile-friendly adjustments */
+@media (max-width: 768px) {
+    .welcome-message {
+        display: none; /* Hide welcome message on mobile */
+    }
+    
+    .dropdown-menu {
+        right: -15px; /* Adjust position on mobile */
+    }
+}
+/* Auth buttons styling (already in your CSS, but included for reference) */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.sign-in, .sign-up {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.sign-in {
+    background-color: transparent;
+    border: 1px solid #512da8;
+    color: #512da8;
+}
+
+.sign-up {
+    background-color: #512da8;
+    color: white;
+}
 /* HEADER */
 header {
     background-color: transparent;

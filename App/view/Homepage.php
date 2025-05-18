@@ -1,3 +1,13 @@
+
+<?php
+// Start the session to enable access to session variables
+session_start();
+
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+$username = $isLoggedIn ? $_SESSION['user_name'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,13 +17,14 @@
     <base href="/PrincipleProject/">
     <link rel="stylesheet" href="Public/css/Homepage.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
     <header>
         <div class="container">
             <div class="navbar">
                 <div class="logo">
-                    <a href="#">CarRent</a>
+                    <a href="#"><img src="Public/images/logo.jpg" alt="CarHub Logo"></a>
                 </div>
                 <nav>
                     <ul>
@@ -23,14 +34,36 @@
                         <li><a href="#">Help</a></li>
                     </ul>
                 </nav>
+                
+                <?php if($isLoggedIn): ?>
+                <!-- User is logged in - show profile icon with dropdown -->
                 <div class="auth-buttons">
-                    <button class="sign-in">Sign In</button>
-                    <button class="sign-up">Sign Up</button>
+                    <span class="welcome-message">Welcome, <?php echo htmlspecialchars($username); ?></span>
+                    <div class="user-profile">
+                        <div class="user-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <ul>
+                                <li class="user-info"><?php echo htmlspecialchars($username); ?></li>
+                                <li><a href="#"><i class="fas fa-user-circle"></i> My Profile</a></li>
+                                <li><a href="#"><i class="fas fa-car"></i> My Rentals</a></li>
+                                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                                <li class="logout"><a href="Logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+                <?php else: ?>
+                <!-- User is not logged in - show sign in/up buttons -->
+                <div class="auth-buttons">
+                    <button class="sign-in" onclick="window.location.href='Login.php'">Sign In</button>
+                    <button class="sign-up" onclick="window.location.href='Login.php'">Sign Up</button>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </header>
-
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -551,7 +584,34 @@ What really impressed me was how quick the pickup and return process was—no lo
         </div>
     </div>
 </footer>
-
+<script>
+        // Toggle dropdown menu when clicking on user icon
+        document.addEventListener('DOMContentLoaded', function() {
+            const userProfile = document.querySelector('.user-profile');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            
+            if (userProfile) {
+                userProfile.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('active');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    if (dropdownMenu && dropdownMenu.classList.contains('active')) {
+                        dropdownMenu.classList.remove('active');
+                    }
+                });
+                
+                // Prevent closing when clicking inside dropdown
+                if (dropdownMenu) {
+                    dropdownMenu.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                    });
+                }
+            }
+        });
+    </script>
     <script src="Public/js/Homepage.js"></script>
 </body>
 </html>
