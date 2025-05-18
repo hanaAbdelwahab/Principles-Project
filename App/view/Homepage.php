@@ -13,7 +13,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CarRent - Rent the Best Car Around the World</title>
+    <title>CarHub - Rent the Best Car Around the World</title>
     <base href="/PrincipleProject/">
     <link rel="stylesheet" href="Public/css/Homepage.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -82,7 +82,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
 
     <section class="features">
         <div class="container">
-            <h2>Why choose CarRent?</h2>
+            <h2>Why choose CarHub?</h2>
             
             <div class="feature-cards">
                 <div class="feature-card">
@@ -102,7 +102,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
                         </svg>
                     </div>
                     <h3>Many Pickup Location</h3>
-                    <p>Wherever you are, we’re nearby. With a wide network of convenient pickup points across the city and beyond, CarRent makes it easy to start your journey from a location that works best for you.</p>
+                    <p>Wherever you are, we’re nearby. With a wide network of convenient pickup points across the city and beyond, CarHub makes it easy to start your journey from a location that works best for you.</p>
                 </div>
                 
                 <div class="feature-card">
@@ -112,7 +112,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
                         </svg>
                     </div>
                     <h3>Satisfied Customers</h3>
-                    <p>We put our customers first, and it shows. From excellent service to reliable vehicles, thousands of happy renters have trusted CarRent—and keep coming back for the experience they can count on.</p>
+                    <p>We put our customers first, and it shows. From excellent service to reliable vehicles, thousands of happy renters have trusted CarHub—and keep coming back for the experience they can count on.</p>
                 </div>
             </div>
         </div>
@@ -365,7 +365,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
                     </div>
                     <div class="step-content">
                         <h3>Open</h3>
-                        <p>the CarRent Website</p>
+                        <p>the CarHub Website</p>
                     </div>
                 </div>
                 
@@ -431,7 +431,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
                     <span class="star filled">★</span>
                     <span class="star filled">★</span>
                 </div>
-                <p class="testimonial-text">“I booked a car through carRent for a weekend getaway, and the entire process was incredibly smooth. The site was easy to navigate, and the car was ready on time and in perfect condition. I’ll definitely be using carRent again!”</p>
+                <p class="testimonial-text">“I booked a car through CarHub for a weekend getaway, and the entire process was incredibly smooth. The site was easy to navigate, and the car was ready on time and in perfect condition. I’ll definitely be using CarHub again!”</p>
                 <div class="testimonial-author">
                     <div class="author-avatar">
                         <img src="Public/images/userrr.png" alt="Kathy West">
@@ -449,9 +449,9 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
                     <span class="star filled">★</span>
                     <span class="star filled">★</span>
                 </div>
-                <p class="testimonial-text">“I was honestly surprised by how smooth my experience with carRent was. Booking took less than five minutes, and I got exactly the type of car I needed at a price that beat the bigger rental companies. The car was clean, fueled, and ready to go when I arrived.
+                <p class="testimonial-text">“I was honestly surprised by how smooth my experience with CarHub was. Booking took less than five minutes, and I got exactly the type of car I needed at a price that beat the bigger rental companies. The car was clean, fueled, and ready to go when I arrived.
 
-What really impressed me was how quick the pickup and return process was—no long lines or paperwork headaches. Everything was straightforward, and the staff was friendly and professional. I’ll definitely be using carRent again for my next trip!”</p>
+What really impressed me was how quick the pickup and return process was—no long lines or paperwork headaches. Everything was straightforward, and the staff was friendly and professional. I’ll definitely be using CarHub again for my next trip!”</p>
                 <div class="testimonial-author">
                     <div class="author-avatar">
                         <img src="Public/images/userrr.png" alt="Tommy Ward">
@@ -469,7 +469,7 @@ What really impressed me was how quick the pickup and return process was—no lo
                     <span class="star filled">★</span>
                     <span class="star filled">★</span>
                 </div>
-                <p class="testimonial-text">“When my flight got delayed, I thought I’d lose my reservation, but carRent’s support team was super helpful and adjusted everything for me. Great customer service like this is rare these days.”</p>
+                <p class="testimonial-text">“When my flight got delayed, I thought I’d lose my reservation, but CarHub’s support team was super helpful and adjusted everything for me. Great customer service like this is rare these days.”</p>
                 <div class="testimonial-author">
                     <div class="author-avatar">
                         <img src="Public/images/userrr.png" alt="Stephen Baker">
@@ -487,7 +487,7 @@ What really impressed me was how quick the pickup and return process was—no lo
                     <span class="star filled">★</span>
                     <span class="star filled">★</span>
                 </div>
-                <p class="testimonial-text">“I needed a car last-minute for a business trip, and carRent came through. The pickup and drop-off process was fast and efficient, and the car ran perfectly. I’ll be a repeat customer for sure.”</p>
+                <p class="testimonial-text">“I needed a car last-minute for a business trip, and CarHub came through. The pickup and drop-off process was fast and efficient, and the car ran perfectly. I’ll be a repeat customer for sure.”</p>
                 <div class="testimonial-author">
                     <div class="author-avatar">
                         <img src="Public/images/userrr.png" alt="Angelina Keith">
@@ -505,7 +505,7 @@ What really impressed me was how quick the pickup and return process was—no lo
             <!-- Company Info -->
             <div class="footer-column company-info">
                 <div class="footer-logo">
-                    <a href="#">CarRent</a>
+                    <a href="#">CarHub</a>
                 </div>
                 <p class="company-description">
                     Your premium car rental service. Find the perfect vehicle for any occasion, anywhere in the world.
@@ -574,7 +574,7 @@ What really impressed me was how quick the pickup and return process was—no lo
         
         <div class="footer-bottom">
             <div class="copyright">
-                <p>&copy; 2025 CarRent. All rights reserved.</p>
+                <p>&copy; 2025 CarHub. All rights reserved.</p>
             </div>
             <div class="footer-bottom-links">
                 <a href="#">Privacy Policy</a>
