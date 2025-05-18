@@ -103,7 +103,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['forgot-submit'])) {
 
         <base href="/PrincipleProject/">
         <link rel="stylesheet" href="Public/css/Login.css" />
-        <link rel="stylesheet" href="Public/css/Homepage.css" />
 
         <title>Login/Signup Page</title>
         <link rel="icon" href="/images/logo1.png" type="image/x-icon" />
