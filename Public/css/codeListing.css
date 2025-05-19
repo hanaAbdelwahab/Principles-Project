@@ -1,13 +1,12 @@
 body {
   background: radial-gradient(
     circle at center,
-    rgba(40, 40, 40, 0.95) 0%,
-    rgba(20, 20, 20, 0.98) 40%,
-     rgba(96, 95, 95, 0.98) 60%
+    rgba(55, 55, 55, 0.95) 0%,
+    rgba(30, 30, 30, 0.98) 50%,
+    rgba(10, 10, 10, 1) 100%
   );
   color: #f1f1f1;
 }
-
     .navbar {
       background-color: #0e0e2c;
     }
@@ -432,10 +431,11 @@ input[type="range"].dual-range {
 .modal-xl .modal-content {
   min-height: 90vh; /* 80% of viewport height, adjust as needed */
   min-width:80vw;
+
 }
 .modal-body {
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 /* Glassmorphism Modal Styling */
 .modal-content.glass {
@@ -463,7 +463,12 @@ input[type="range"].dual-range {
 .modal-glass-tag i {
   margin-right: 6px;
 }
-
+#modalCarDesc {
+  margin-left: 3rem;
+  margin-bottom: 3rem;
+  font-weight: 500;
+  color: rgb(215, 215, 215) !important;
+}
 .carModalImg {
   display: flex;
   flex-direction: column; /* this is the correct value */
@@ -473,12 +478,12 @@ input[type="range"].dual-range {
   margin-top:5rem;
 }
 .carModalImg .btn{
-  font-size:1.2rem;
+  font-size:1.5rem;
   font-weight:500;
   transform:scale(1);
   background-color:white;
   color:white;
-
+  translate: 5rem 5rem;
 }
 .carModalImg .btn:hover{
   background-color:#eee;
@@ -573,19 +578,57 @@ input[type="date"]:focus {
 .card__image {
   border-radius: 12px;
 }
-.card.glass .card-title h2,
-.card.glass .card-title h2 small,
-.card.glass .card-description,
-.card.glass .threeinfo,
-.card.glass .card-description i,
-.card.glass .threeinfo i,
-.card.glass .card-flap,
-.card.glass .card-flap div,
-.card.glass .toggle-info span {
+body:not(.light-mode) .card.glass .card-title h2,
+body:not(.light-mode) .card.glass .card-title h2 small,
+body:not(.light-mode) .card.glass .card-description,
+body:not(.light-mode) .card.glass .threeinfo,
+body:not(.light-mode) .card.glass .card-description i,
+body:not(.light-mode) .card.glass .threeinfo i,
+body:not(.light-mode) .card.glass .card-flap,
+body:not(.light-mode) .card.glass .card-flap div,
+body:not(.light-mode) .card.glass .toggle-info span {
   color: white !important;
   fill: white !important;
 }
 
+.search-box {
+  background: rgba(158, 158, 158, 0.3); /* dark background with opacity */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white; /* light text for dark background */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+}
+
+.search-box .form-label,
+.search-box .btn {
+font-size:1.2rem;
+  font-family:"Cambria";
+  color:white;
+}
+
+.search-box .form-select,
+.search-box input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(39, 73, 176);
+}
+
+.search-box .form-select:focus,
+.search-box input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #6c757d;
+  color: black;
+}
+
+.search-box .btn {
+  background-color:rgb(39, 73, 176);
+  border: none;
+}
+
+.search-box .btn:hover {
+  background-color:#3366ff;
+}
 /* Optional: If using Bootstrap buttons with text inside */
 .card.glass .btn-outline-primary {
   color: white;
@@ -596,4 +639,89 @@ input[type="date"]:focus {
   background-color: white;
   color: #000;
 }
+.invalid-date {
+  border-color: red !important;
+  background-color: #ffe5e5 !important;
+  color: red !important;
+}
 
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 1); /* Darker overlay */
+  backdrop-filter: blur(20px); /* Optional: slight blur effect */
+}
+
+input[type="date"]:not(.has-value)::before {
+  content: attr(data-placeholder);
+  color: whitesmoke !important;
+  position: absolute;
+  pointer-events: none;
+}
+.choose-option {
+    background-color: rgb(219, 218, 218);
+}
+  
+body.light-mode {
+  background: #ebebeb !important;
+  color: #000000 !important;
+}
+
+body.light-mode .search-box {
+  background: rgba(200, 200, 200, 0.3) !important;
+  color: #000 !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .search-box input,
+body.light-mode .search-box select {
+  background-color: #f0f0f0 !important;
+  color: #333 !important;
+  border: 1px solid #bbb !important;
+}
+body.light-mode .card-description,
+body.light-mode .card-flap{
+  background-color: #d6d6d6;
+}
+body.light-mode .search-box input:focus,
+body.light-mode .search-box select:focus {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #888 !important;
+}
+
+body.light-mode .form-label,
+body.light-mode .card-title h2,
+body.light-mode .card-title h2 small{
+  color: #000 !important;
+}
+
+body.light-mode .card.glass {
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: #000 !important;
+  border: 1px solid #ccc !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.light-mode .btn-outline-primary {
+  color: #333 !important;
+  border-color: #333 !important;
+}
+body.light-mode .btn-outline-primary:hover {
+  background-color: rgb(52, 93, 213) !important;
+  color: white !important;
+}
+body.light-mode .read-more-btn{
+color:white !important;
+}
+body.light-mode .card-description{
+  color:rgb(53, 52, 52) !important;
+}
+body.light-mode .search-box{
+  background: rgba(117, 117, 117, 0.3); /* dark background with opacity */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 15px;
+  border: 1px solid rgba(161, 161, 161, 0.1);
+  color: white; /* light text for dark background */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+}
