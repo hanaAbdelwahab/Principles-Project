@@ -2,11 +2,29 @@
 require_once __DIR__ . '/../Controller/CarController.php';
 require_once __DIR__ . '/../Model/Car.php';
 
-
 $controller = new CarController();
+
+function uploadImage($file) {
+    $uploadDir = 'uploads/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
+
+    $fileName = uniqid() . "_" . basename($file['name']);
+    $targetPath = $uploadDir . $fileName;
+
+    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        return $targetPath;
+    }
+
+    return $uploadDir . 'default-car.jpg'; // fallback
+}
 
 // ADD CAR
 if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST["action"] === "add") {
+    $imagePath = uploadImage($_FILES['image_filename']);
+    $_POST['image_filename'] = $imagePath;
+
     $controller->createCar($_POST);
     header("Location: manage-cars.php");
     exit;
@@ -14,6 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST["action"] === "add") {
 
 // UPDATE CAR
 if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST["action"] === "update") {
+    if (isset($_FILES['image_filename']) && $_FILES['image_filename']['size'] > 0) {
+        $_POST['image_filename'] = uploadImage($_FILES['image_filename']);
+    }
+
     $controller->updateCar($_POST['id'], $_POST);
     header("Location: manage-cars.php");
     exit;
@@ -47,62 +69,119 @@ $cars = $controller->getAllCars();
         .btn-update { background: #4cd964; }
         .btn-delete { background: #ff9933; }
         .btn-add { background: #3366ff; }
-        .edit-mode input, .edit-mode select, .edit-mode textarea { background-color: #fff9e6; border: 1px solid #aaa; }
-        .modal p {
-    margin: 8px 0;
-    font-size: 15px;
-    color: #333;
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 22px;
+            color: #888;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .close-btn:hover {
+            color: #000;
+        }
+       #addCarModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 40px 0;
+  backdrop-filter: blur(4px);
 }
-.modal h2 {
-    margin-bottom: 15px;
-    color: #3366ff;
+
+       
+        @media (max-width: 768px) {
+  #addCarModal form {
+    width: 95% !important;
+    padding: 25px !important;
+  }
 }
 
     </style>
-    <script>
-        function enableEdit(id) {
-            const row = document.getElementById("row-" + id);
-            row.classList.add("edit-mode");
-            const inputs = row.querySelectorAll("input, select, textarea");
-            inputs.forEach(el => el.disabled = false);
-            row.querySelector(".btn-edit").style.display = "none";
-            row.querySelector(".btn-update").style.display = "inline-block";
-        }
-    </script>
 </head>
 <body>
 
 <h1>Manage Cars</h1>
 
-<!-- Add Car -->
-<form method="POST">
+<!-- Add Car Modal -->
+<div id="addCarModal" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 40px 0;
+">
+<form method="POST" enctype="multipart/form-data" style="
+  background: white;
+  margin: auto;
+  padding: 40px 50px;
+  width: 95%;
+  max-width: 900px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  font-size: 16px;
+  position: relative;
+  max-height: 95vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+">
+
+>
     <input type="hidden" name="action" value="add">
-    <input name="name" placeholder="Car Name" required>
-    <input name="model" placeholder="Model" required>
-    <input type="number" name="year" placeholder="Year" required>
-    <input type="number" step="0.01" name="price_per_day" placeholder="Price/Day" required>
-    <input name="image_filename" placeholder="Image Filename (e.g., car.png)">
-    <textarea name="description" placeholder="Description" rows="2" cols="30"></textarea>
-    <input name="color" placeholder="Color">
-    <input name="location" placeholder="Location">
-    <input type="date" name="start_date">
-    <input type="date" name="end_date">
-    <input type="number" step="0.1" name="rate" placeholder="Rating (0–5)">
-    <input type="number" name="renters" placeholder="Renters">
-    <select name="transmission_type">
+    <button type="button" class="close-btn" onclick="closeModal('addCarModal')">✕</button>
+
+    <h2 style="color: #3366ff; margin-bottom: 20px;">Add New Car</h2>
+
+    <input name="name" placeholder="Car Name" required style="width: 100%; margin-bottom: 10px;">
+    <input name="model" placeholder="Model" required style="width: 100%; margin-bottom: 10px;">
+    <input type="number" name="year" placeholder="Year" required style="width: 100%; margin-bottom: 10px;">
+    <input type="number" step="0.01" name="price_per_day" placeholder="Price/Day" required style="width: 100%; margin-bottom: 10px;">
+    <input type="file" name="image_filename" accept="image/*" required style="width: 100%; margin-bottom: 10px;">
+    <textarea name="description" placeholder="Description" rows="2" style="width: 100%; margin-bottom: 10px;"></textarea>
+    <input name="color" placeholder="Color" style="width: 100%; margin-bottom: 10px;">
+    <input name="location" placeholder="Location" style="width: 100%; margin-bottom: 10px;">
+    <input type="date" name="start_date" style="width: 100%; margin-bottom: 10px;">
+    <input type="date" name="end_date" style="width: 100%; margin-bottom: 10px;">
+    
+    <select name="transmission_type" style="width: 100%; margin-bottom: 10px;">
         <option value="">Transmission</option>
         <option value="Automatic">Automatic</option>
         <option value="Manual">Manual</option>
     </select>
-    <select name="power_type">
+    <select name="power_type" style="width: 100%; margin-bottom: 10px;">
         <option value="">Power Type</option>
         <option value="Electric">Electric</option>
         <option value="Fuel">Fuel</option>
     </select>
-    <input name="wheels" placeholder="Wheels (e.g., forged V13)">
-    <input name="brakes" placeholder="Brakes (e.g., disc)">
-    <button class="btn btn-add" type="submit">Add</button>
-</form>
+    <input name="wheels" placeholder="Wheels (e.g., forged V13)" style="width: 100%; margin-bottom: 10px;">
+    <input name="brakes" placeholder="Brakes (e.g., disc)" style="width: 100%; margin-bottom: 10px;">
+
+    <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+      <button type="submit" class="btn btn-add">Add Car</button>
+      <button type="button" onclick="closeModal('addCarModal')" class="btn btn-delete">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<!-- Add Car Button (top-right) -->
+<div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+  <button class="btn btn-add" onclick="document.getElementById('addCarModal').style.display='block'">
+    + Add New Car
+  </button>
+</div>
+
 
 <!-- Cars Table -->
 <table>
@@ -115,8 +194,7 @@ $cars = $controller->getAllCars();
         <th>Price/Day</th>
         <th>Actions</th>
     </tr>
-</thead>
-
+  </thead>
   <tbody>
 <?php foreach ($cars as $car): ?>
     <tr>
@@ -131,50 +209,152 @@ $cars = $controller->getAllCars();
         </td>
     </tr>
 
-    <!-- Modal HTML -->
-    <div id="modal-<?= $car['id'] ?>" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000;">
-        <div style="background:white; margin:5% auto; padding:20px; width:90%; max-width:600px; border-radius:8px; position:relative;">
-            <h2><?= htmlspecialchars($car['name']) ?> (<?= htmlspecialchars($car['model']) ?>)</h2>
-            <p><strong>Year:</strong> <?= $car['year'] ?></p>
-            <p><strong>Price/Day:</strong> <?= $car['price_per_day'] ?> EGP</p>
-            <p><strong>Image Filename:</strong> <?= htmlspecialchars($car['image_filename']) ?></p>
-            <p><strong>Description:</strong> <?= htmlspecialchars($car['description']) ?></p>
-            <p><strong>Color:</strong> <?= htmlspecialchars($car['color']) ?></p>
-            <p><strong>Location:</strong> <?= htmlspecialchars($car['location']) ?></p>
-            <p><strong>Start Date:</strong> <?= $car['start_date'] ?></p>
-            <p><strong>End Date:</strong> <?= $car['end_date'] ?></p>
-            <p><strong>Rate:</strong> <?= $car['rate'] ?></p>
-            <p><strong>Renters:</strong> <?= $car['renters'] ?></p>
-            <p><strong>Transmission:</strong> <?= htmlspecialchars($car['transmission_type']) ?></p>
-            <p><strong>Power:</strong> <?= htmlspecialchars($car['power_type']) ?></p>
-            <p><strong>Wheels:</strong> <?= htmlspecialchars($car['wheels']) ?></p>
-            <p><strong>Brakes:</strong> <?= htmlspecialchars($car['brakes']) ?></p>
-            <button onclick="closeModal(<?= $car['id'] ?>)" class="btn btn-delete" style="margin-top:15px;">Close</button>
+    <!-- Modal -->
+    <div id="modal-<?= $car['id'] ?>" class="modal" style="
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        overflow-y: auto;
+        padding: 40px 0;
+    ">
+      <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="update">
+        <input type="hidden" name="id" value="<?= $car['id'] ?>">
+
+        <div style="
+            background: white;
+            margin: auto;
+            padding: 30px 40px;
+            width: 90%;
+            max-width: 650px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            font-size: 15px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        ">
+            <button type="button" class="close-btn" onclick="closeModal(<?= $car['id'] ?>)">✕</button>
+
+            <h2 style="color: #3366ff; margin-bottom: 25px;">
+                <?= htmlspecialchars($car['name']) ?> (<?= htmlspecialchars($car['model']) ?>)
+            </h2>
+
+            <div style="margin-bottom: 15px;">
+                <strong>Year:</strong>
+                <input type="number" name="year" value="<?= $car['year'] ?>" disabled style="width: 100%;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong>Price/Day:</strong>
+                <input type="number" name="price_per_day" value="<?= $car['price_per_day'] ?>" disabled style="width: 100%;">
+            </div>
+
+           <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+    <strong>Car Image:</strong>
+    <a href="javascript:void(0);" onclick="toggleImage(<?= $car['id'] ?>)" class="btn btn-edit" style="margin-left: auto;">View Image</a>
+</div>
+
+<div id="car-image-<?= $car['id'] ?>" style="display:none; margin-top: 15px;">
+    <img src="<?= $car['image_filename'] ?>" alt="Car Image" style="max-width: 100%; border-radius: 8px;">
+</div>
+
+<!-- Hidden image file input for editing -->
+<div style="margin-top: 10px;">
+    <input type="file" name="image_filename" id="file-<?= $car['id'] ?>" accept="image/*" style="width: 100%; display: none;">
+</div>
+
+
+
+            <div style="margin-bottom: 15px;">
+                <strong>Description:</strong>
+                <textarea name="description" disabled style="width: 100%; height: 60px; border-radius: 5px;"><?= htmlspecialchars($car['description']) ?></textarea>
+            </div>
+
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <?php
+                $fields = [
+                    'Color' => 'color',
+                    'Location' => 'location',
+                    'Start Date' => 'start_date',
+                    'End Date' => 'end_date',
+                    'Transmission' => 'transmission_type',
+                    'Power' => 'power_type',
+                    'Wheels' => 'wheels',
+                    'Brakes' => 'brakes'
+                ];
+                foreach ($fields as $label => $name): ?>
+                    <div style="flex: 1 1 45%;">
+                        <strong><?= $label ?>:</strong>
+                        <input name="<?= $name ?>" value="<?= $car[$name] ?>" disabled style="width: 100%;">
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <div style="margin-top: 25px; display: flex; justify-content: space-between;">
+                <button type="button" onclick="enableEdit(<?= $car['id'] ?>)" class="btn btn-edit">Edit</button>
+                <button type="submit" class="btn btn-update" id="update-btn-<?= $car['id'] ?>" style="display:none;">Update</button>
+                <button type="button" onclick="closeModal(<?= $car['id'] ?>)" class="btn btn-delete">Close</button>
+            </div>
         </div>
+      </form>
     </div>
 <?php endforeach; ?>
-</tbody>
-
-
+  </tbody>
 </table>
 
 <script>
-    function openModal(id) {
-        document.getElementById('modal-' + id).style.display = 'block';
+function toggleImage(id) {
+    const imgDiv = document.getElementById('car-image-' + id);
+    imgDiv.style.display = imgDiv.style.display === 'none' ? 'block' : 'none';
+}
+
+function openModal(id) {
+    document.getElementById('modal-' + id).style.display = 'block';
+    document.addEventListener('keydown', escHandler);
+}
+
+function closeModal(id) {
+    document.getElementById('modal-' + id).style.display = 'none';
+    document.removeEventListener('keydown', escHandler);
+}
+
+function escHandler(e) {
+    if (e.key === "Escape") {
+        document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+        document.removeEventListener('keydown', escHandler);
+    }
+}
+
+function enableEdit(id) {
+    const modal = document.getElementById('modal-' + id);
+    const inputs = modal.querySelectorAll('input, textarea');
+    inputs.forEach(el => {
+        if (el.type !== 'file') el.disabled = false;
+    });
+
+    // Show file input for image upload
+    const fileInput = document.getElementById('file-' + id);
+    if (fileInput) {
+        fileInput.style.display = 'block';
     }
 
-    function closeModal(id) {
-        document.getElementById('modal-' + id).style.display = 'none';
-    }
-</script>
-<script>
-    function openModal(id) {
-        document.getElementById('modal-' + id).style.display = 'block';
-    }
+    modal.querySelector('.btn-edit').style.display = 'none';
+    modal.querySelector('.btn-update').style.display = 'inline-block';
+}
 
-    function closeModal(id) {
-        document.getElementById('modal-' + id).style.display = 'none';
+function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        document.querySelectorAll('[id$="Modal"]').forEach(modal => modal.style.display = 'none');
     }
+});
+
 </script>
 
 </body>
