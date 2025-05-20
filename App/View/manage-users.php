@@ -2,10 +2,22 @@
 require_once __DIR__ . '/../Controller/UserController.php';
 require_once __DIR__ . '/../Model/User.php';
 
-
 $controller = new UserController();
 
-// Create user
+function uploadFile($file) {
+    $uploadDir = 'uploads/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
+    $fileName = uniqid() . "_" . basename($file['name']);
+    $targetPath = $uploadDir . $fileName;
+    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        return $targetPath;
+    }
+    return $uploadDir . 'default.jpg';
+}
+
+// Handle Add
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
     $licensePath = uploadFile($_FILES['driver_license_path']);
     $idPath = uploadFile($_FILES['national_id_path']);
@@ -23,8 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
     exit;
 }
 
-// Update user
-// Update user (only when update form is submitted)
+// Handle Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'update') {
     $licensePath = isset($_FILES['driver_license_path']) && $_FILES['driver_license_path']['size'] > 0
         ? uploadFile($_FILES['driver_license_path'])
@@ -43,38 +54,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'update') {
         $licensePath,
         $idPath
     );
-
     header("Location: manage-users.php");
     exit;
 }
 
-
-
-// Delete user
+// Handle Delete
 if (isset($_GET['delete'])) {
     $controller->deleteUser($_GET['delete']);
     header("Location: manage-users.php");
     exit;
 }
 
-// File upload helper
-function uploadFile($file) {
-    $uploadDir = 'uploads/';  // relative to your project root
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
-    }
-
-    $fileName = uniqid() . "_" . basename($file['name']);
-    $targetPath = $uploadDir . $fileName;
-
-    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return $targetPath;
-    }
-    return $uploadDir . 'default.jpg';
-}
-
-
-$users = $controller->getAllUsers();
+// FILTERING
+$search = $_GET['search'] ?? '';
+$colorFilter = $_GET['color'] ?? '';
+$users = array_filter($controller->getAllUsers(), function($user) use ($search, $colorFilter) {
+    $matchesSearch = empty($search) || stripos($user['username'], $search) !== false || stripos($user['email'], $search) !== false;
+    $matchesColor = empty($colorFilter) || $user['favorite_color'] === $colorFilter;
+    return $matchesSearch && $matchesColor;
+});
 ?>
 
 <!DOCTYPE html>
@@ -82,211 +80,413 @@ $users = $controller->getAllUsers();
 <head>
     <meta charset="UTF-8">
     <title>Manage Users</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    h2 {
-        font-weight: bold;
-        color: #343a40;
-    }
-
-    .table thead th {
-        text-align: center;
-    }
-
-    .table td, .table th {
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    .btn-primary {
-        background-color: #4285f4;
-        border: none;
-    }
-
-    .btn-primary:hover {
-        background-color: #3367d6;
-    }
-
-    .btn-warning {
-        color: white;
-        background-color: #fbbc05;
-        border: none;
-    }
-
-    .btn-warning:hover {
-        background-color: #e0a800;
-    }
-
-    .btn-danger {
-        background-color: #ea4335;
-        border: none;
-    }
-
-    .btn-danger:hover {
-        background-color: #c63225;
-    }
-
-    .modal-header {
-        background-color: #4285f4;
-        color: white;
-    }
-
-    .modal-footer {
-        background-color: #f1f1f1;
-    }
-
-    .form-control:focus {
-        border-color: #4285f4;
-        box-shadow: 0 0 0 0.2rem rgba(66, 133, 244, 0.25);
-    }
-
-    .btn-close {
-        background: white;
-    }
-
-    .btn-close:hover {
-        background: #ddd;
-    }
-
-    .table a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .table a:hover {
-        text-decoration: underline;
-    }
-</style>
-
+    <link rel="stylesheet" href="../../Public/css/styles.css">
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">Manage Users</h2>
+<body>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="logo">CarHub Admin</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="manage-cars.php"><span>Manage Cars</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a href="#"><span>Manage Users</span></a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
 
-    <!-- Add User Button -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
+    <main class="main-content">
+        <header class="content-header">
+            <div class="header-left">
+                <h2>Manage Users</h2>
+            </div>
+        </header>
 
-    <!-- Users Table -->
-    <table class="table table-bordered table-hover bg-white">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Birthdate</th>
-                <th>License</th>
-                <th>ID</th>
-                <th>Color</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= htmlspecialchars($user['id']) ?></td>
-                <td><?= htmlspecialchars($user['username']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td><?= htmlspecialchars($user['birthdate']) ?></td>
-                <td><a href="<?= $user['driver_license_path'] ?>" target="_blank">View</a></td>
-                <td><a href="<?= $user['national_id_path'] ?>" target="_blank">View</a></td>
-                <td><?= htmlspecialchars($user['favorite_color']) ?></td>
-                <td>
-                    <button class="btn btn-sm btn-warning edit-btn"
-                        data-id="<?= $user['id'] ?>"
-                        data-username="<?= htmlspecialchars($user['username']) ?>"
-                        data-email="<?= htmlspecialchars($user['email']) ?>"
-                        data-birthdate="<?= $user['birthdate'] ?>"
-                        data-favorite_color="<?= htmlspecialchars($user['favorite_color']) ?>"
-                        data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</button>
-                    <a href="?delete=<?= $user['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?')">Delete</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+        <div class="dashboard-content">
+            <section class="content-section active">
+                <div class="section-header">
+                    <h3>User List</h3>
+                    <div class="actions">
+                        <button class="add-btn" onclick="document.getElementById('addUserModal').classList.add('active')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Add User
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Form -->
+                <form method="GET" class="filter-form" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <input type="text" name="search" placeholder="Search by username or email" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+                    <select name="color">
+                        <option value="">All Colors</option>
+                        <option value="Red" <?= ($_GET['color'] ?? '') === 'Red' ? 'selected' : '' ?>>Red</option>
+                        <option value="Blue" <?= ($_GET['color'] ?? '') === 'Blue' ? 'selected' : '' ?>>Blue</option>
+                        <option value="Green" <?= ($_GET['color'] ?? '') === 'Green' ? 'selected' : '' ?>>Green</option>
+                        <option value="Yellow" <?= ($_GET['color'] ?? '') === 'Yellow' ? 'selected' : '' ?>>Yellow</option>
+                    </select>
+                    <button type="submit">Apply Filters</button>
+                </form>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Birthdate</th>
+                                <th>License</th>
+                                <th>ID</th>
+                                <th>Color</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($users as $user): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($user['id']) ?></td>
+                                    <td><?= htmlspecialchars($user['username']) ?></td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
+                                    <td><?= htmlspecialchars($user['birthdate']) ?></td>
+                                    <td><a href="<?= $user['driver_license_path'] ?>" target="_blank">View</a></td>
+                                    <td><a href="<?= $user['national_id_path'] ?>" target="_blank">View</a></td>
+                                    <td><?= htmlspecialchars($user['favorite_color']) ?></td>
+                                    <td>
+                                      <button class="table-btn view-btn" onclick="editUser(<?= $user['id'] ?>, '<?= htmlspecialchars($user['username']) ?>', '<?= htmlspecialchars($user['email']) ?>', '<?= $user['birthdate'] ?>', '<?= htmlspecialchars($user['favorite_color']) ?>')">View</button>
+
+
+                                        <a href="?delete=<?= $user['id'] ?>" class="table-btn delete-btn" onclick="return confirm('Delete this user?')">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
 </div>
 
 <!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1">
-  <div class="modal-dialog">
-    <form method="POST" enctype="multipart/form-data" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add New User</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-          <input type="hidden" name="action" value="add">
-          <div class="mb-3"><label>Username</label><input type="text" name="username" class="form-control" required></div>
-          <div class="mb-3"><label>Email</label><input type="email" name="email" class="form-control" required></div>
-          <div class="mb-3"><label>Password</label><input type="password" name="password" class="form-control" required></div>
-          <div class="mb-3"><label>Birthdate</label><input type="date" name="birthdate" class="form-control" required></div>
-          <div class="mb-3"><label>Driver License</label><input type="file" name="driver_license_path" class="form-control" required></div>
-          <div class="mb-3"><label>National ID</label><input type="file" name="national_id_path" class="form-control" required></div>
-          <div class="mb-3"><label>Favorite Color</label><input type="text" name="favorite_color" class="form-control"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Add</button>
-      </div>
-    </form>
-  </div>
+<div class="modal" id="addUserModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Add New User</h3>
+            <button class="close-modal" onclick="document.getElementById('addUserModal').classList.remove('active')">✕</button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="add">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="date" name="birthdate" required>
+               <div class="file-input-row">
+  <label for="edit-license">Driver License</label>
+  <input type="file" name="driver_license_path" id="edit-license">
+</div>
+
+<div class="file-input-row">
+  <label for="edit-idfile">National ID</label>
+  <input type="file" name="national_id_path" id="edit-idfile">
+</div>
+
+                <input type="text" name="favorite_color" placeholder="Favorite Color">
+                <div class="modal-footer">
+                    <button type="submit" class="save-btn">Add User</button>
+                    <button type="button" class="cancel-btn" onclick="document.getElementById('addUserModal').classList.remove('active')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- Edit User Modal -->
-<div class="modal fade" id="editUserModal" tabindex="-1">
-  <div class="modal-dialog">
- <form method="POST" enctype="multipart/form-data" class="modal-content">
-  <input type="hidden" name="action" value="update">
-  <input type="hidden" name="id" id="edit-id">
+<div class="modal" id="editUserModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit User</h3>
+      <button class="close-modal" onclick="closeEditUserModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="update">
+        <input type="hidden" name="id" id="edit-id">
 
-  <div class="mb-3"><label>Username</label>
-    <input type="text" name="username" id="edit-username" class="form-control" required>
-  </div>
+        <input type="text" name="username" id="edit-username" placeholder="Username" required disabled>
+        <input type="email" name="email" id="edit-email" placeholder="Email" required disabled>
+        <input type="date" name="birthdate" id="edit-birthdate" required disabled>
+        <input type="text" name="favorite_color" id="edit-favorite-color" placeholder="Favorite Color" disabled>
+        <input type="file" name="driver_license_path" id="edit-license" style="display:none;">
+        <input type="file" name="national_id_path" id="edit-idfile" style="display:none;">
 
-  <div class="mb-3"><label>Email</label>
-    <input type="email" name="email" id="edit-email" class="form-control" required>
-  </div>
-
-  <div class="mb-3"><label>Birthdate</label>
-    <input type="date" name="birthdate" id="edit-birthdate" class="form-control" required>
-  </div>
-
-  <div class="mb-3"><label>Favorite Color</label>
-    <input type="text" name="favorite_color" id="edit-favorite-color" class="form-control">
-  </div>
-
-  <div class="mb-3"><label>Update Driver License</label>
-    <input type="file" name="driver_license_path" class="form-control">
-  </div>
-
-  <div class="mb-3"><label>Update National ID</label>
-    <input type="file" name="national_id_path" class="form-control">
-  </div>
-
-  <div class="modal-footer">
-    <button type="submit" class="btn btn-warning">Update</button>
-  </div>
-</form>
-
+        <div class="modal-footer">
+          <button type="button" class="edit-btn" onclick="enableUserEdit()">Edit</button>
+          <button type="submit" class="save-btn" id="update-btn" style="display: none;">Update User</button>
+          <button type="button" class="cancel-btn" onclick="closeEditUserModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
-<!-- JS Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    
+/* FILTER FORM STYLES */
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-form input,
+.filter-form select,
+.filter-form button {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  color: #333;
+  box-shadow: none;
+  transition: border 0.2s, background-color 0.2s;
+}
+
+.filter-form input::placeholder {
+  color: #888;
+}
+
+.filter-form input:focus,
+.filter-form select:focus,
+.filter-form button:focus {
+  border-color: #007bff;
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.filter-form button {
+  background-color: #f0f0f0;
+  color: #333;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.filter-form button:hover {
+  background-color: #e2e2e2;
+}
+
+/* MODAL OVERLAY */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+
+.modal.active {
+  display: flex;
+}
+
+/* MODAL CONTENT */
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out forwards;
+  position: relative;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MODAL HEADER */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.modal-header .close-modal {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #777;
+}
+
+/* FORM INPUTS */
+.modal-body form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+  border-color: #007bff;
+  background-color: #fff;
+  outline: none;
+}
+
+/* MODAL FOOTER BUTTONS */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modal-footer .save-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.modal-footer .save-btn:hover {
+  background-color: #218838;
+}
+
+.modal-footer .cancel-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.modal-footer .cancel-btn:hover {
+  background-color: #c82333;
+}
+
+/* EDIT BUTTON (DARKER BLUE) */
+.modal-footer .edit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer .edit-btn:hover {
+  background-color: #0056b3;
+}
+
+</style>
+
 <script>
-document.querySelectorAll('.edit-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        document.getElementById('edit-id').value = button.dataset.id;
-        document.getElementById('edit-username').value = button.dataset.username;
-        document.getElementById('edit-email').value = button.dataset.email;
-        document.getElementById('edit-birthdate').value = button.dataset.birthdate;
-        document.getElementById('edit-favorite-color').value = button.dataset.favorite_color;
-    });
-});
+function editUser(id, username, email, birthdate, color) {
+    document.getElementById('edit-id').value = id;
+    document.getElementById('edit-username').value = username;
+    document.getElementById('edit-email').value = email;
+    document.getElementById('edit-birthdate').value = birthdate;
+    document.getElementById('edit-favorite-color').value = color;
+    document.getElementById('editUserModal').classList.add('active');
+}
 
 </script>
+<script>
+function editUser(id, username, email, birthdate, color) {
+  // Fill values
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-username').value = username;
+  document.getElementById('edit-email').value = email;
+  document.getElementById('edit-birthdate').value = birthdate;
+  document.getElementById('edit-favorite-color').value = color;
+
+  // Disable inputs
+  document.getElementById('edit-username').disabled = true;
+  document.getElementById('edit-email').disabled = true;
+  document.getElementById('edit-birthdate').disabled = true;
+  document.getElementById('edit-favorite-color').disabled = true;
+  document.getElementById('edit-license').style.display = 'none';
+  document.getElementById('edit-idfile').style.display = 'none';
+
+  // Hide Update button
+  document.getElementById('update-btn').style.display = 'none';
+
+  // Show Modal
+  document.getElementById('editUserModal').classList.add('active');
+}
+
+function enableUserEdit() {
+  // Enable fields
+  document.getElementById('edit-username').disabled = false;
+  document.getElementById('edit-email').disabled = false;
+  document.getElementById('edit-birthdate').disabled = false;
+  document.getElementById('edit-favorite-color').disabled = false;
+  document.getElementById('edit-license').style.display = 'block';
+  document.getElementById('edit-idfile').style.display = 'block';
+
+  // Show Update button
+  document.getElementById('update-btn').style.display = 'inline-block';
+}
+
+function closeEditUserModal() {
+  document.getElementById('editUserModal').classList.remove('active');
+}
+</script>
+
 </body>
 </html>
