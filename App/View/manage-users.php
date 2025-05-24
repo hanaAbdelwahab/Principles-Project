@@ -86,7 +86,7 @@ $users = array_filter($controller->getAllUsers(), function($user) use ($search, 
 <div class="dashboard">
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h1 class="logo">CarHub Admin</h1>
+            <h1 class="logo">CarHubbbbbb Admin</h1>
         </div>
         <nav class="sidebar-nav">
             <ul>
