@@ -1,0 +1,732 @@
+body {
+  background: radial-gradient(
+    circle at center,
+    rgba(55, 55, 55, 0.95) 0%,
+    rgba(30, 30, 30, 0.98) 50%,
+    rgba(10, 10, 10, 1) 100%
+  );
+  color: #f1f1f1;
+}
+    .navbar {
+      background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #fff;
+    }
+    .navbar-brand,
+    .nav-link,
+    .dropdown-toggle {
+      color: white !important;
+  
+    }
+    .navbar-nav .nav-link {
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+    }
+
+    .search-box {
+
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .car-animation-container {
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .animated-car {
+      position: absolute;
+      top: 10px;
+      height: 60px;
+      animation: driveCar 6s linear infinite;
+    }
+    @keyframes driveCar {
+      0% {
+        right: -100px;
+      }
+      100% {
+        right: 100%;
+      }
+    }
+
+    .dropdown-menu {
+      min-width: 250px;
+      font-size: 0.9rem;
+    }
+    .dropdown-item i {
+      width: 20px;
+    }
+
+    .avatar-circle {
+      width: 40px;
+      height: 40px;
+      background-color: #e05a8b;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    /* Card Styles */
+    .card-wrapper {
+      max-width: 320px;
+      margin: 20px auto;
+      
+    }
+
+    .card {
+      perspective: 1000;
+      transition: transform 0.3s ease-in;
+      position: relative;
+    }
+
+    .card__image-holder {
+      background: rgba(0, 0, 0, 0.1);
+      height: 0;
+      padding-bottom: 75%;
+
+    }
+
+    .card__image {
+      width: 100%;
+      display: block;
+    }
+
+    .card-title {
+      padding: 10px 15px;
+      position: relative;
+    }
+
+    .toggle-info {
+       position: relative;
+      background: rgb(39, 73, 176);
+      border-radius: 32px;
+      height: 32px;
+      width: 32px;
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      text-decoration: none;
+    }
+.toggle-info::after {
+  content: "More details";
+  position: absolute;
+  top: 110%; /* show above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.toggle-info:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+    .toggle-info span {
+      background: white;
+      display: block;
+      height: 2px;
+      position: absolute;
+      top: 16px;
+      width: 12px;
+      transition: all 0.15s ease-out;
+    }
+
+    .toggle-info span.left {
+      right: 14px;
+      transform: rotate(45deg);
+    }
+
+    .toggle-info span.right {
+      left: 14px;
+      transform: rotate(-45deg);
+    }
+.card{
+  transform:scale(1);
+}
+.card:hover{
+  transform:scale(1.05);
+}
+    .card-title h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .card-title h2 small {
+      font-size: 14px;
+      color: white;
+    }
+
+    .card-description {
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+
+    .card-actions {
+      padding: 10px 15px 20px;
+      text-align: center;
+    }
+
+.card-actions .btn {
+  background: rgb(39, 73, 176);
+  color: #fff;
+  padding: 6px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+
+.card-actions .btn:hover {
+  background: rgb(52, 93, 213); /* Slightly darker orange */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transform: scale(1.05); /* Slight zoom */
+}
+
+
+    .card-flap {
+      background: #454545d3;
+      position: absolute;
+      width: 100%;
+      transform-origin: top;
+      transform: rotateX(-90deg);
+      transition: all 0.3s ease-out;
+    }
+
+    .card.show .card-flap {
+      transform: rotateX(0deg);
+    }
+
+    .card.show .toggle-info {
+      background: rgb(39, 73, 176);
+    }
+
+    .card.show .toggle-info span.left {
+      right: 10px;
+      top: 15px;
+    }
+
+    .card.show .toggle-info span.right {
+      left: 10px;
+      top: 15px;
+    }
+.filterForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start; /* This makes all content align to the left */
+}
+
+
+.filterForm > div {
+  display: flex;
+  flex-direction: column;
+}
+input[type="range"] {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.dual-range-wrapper {
+  position: relative;
+  height: 30px;
+}
+.dual-range {
+  position: absolute;
+  pointer-events: none;
+  -webkit-appearance: none;
+  width: 110%;
+  height: 8px;
+  top: 26px; /* Adjusted from 10px to 18px */
+  background: none;
+}
+
+.slider-track {
+  position: absolute;
+  height: 8px;
+  top: 30px;
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 4px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.slider-fill {
+  height: 100%;
+  background-color: rgb(52, 93, 213);
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+
+.dual-range::-webkit-slider-thumb {
+  pointer-events: all;
+  width: 16px;
+  height: 16px;
+  background: rgb(52, 93, 213);
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  position: relative;
+  z-index: 2;
+  border: 2px solid white;
+}
+
+
+.slider-track::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  background-color: rgb(52, 93, 213);
+  border-radius: 4px;
+  z-index: 2;
+}
+.form-select{
+  width:15rem;
+}
+    .card-wrapper { margin-bottom: 30px; }
+    .card__image { width: 100%; height: auto; }
+    .card-title h2 { margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .toggle-body { display: block; transition: all 0.3s ease; }
+    .rotate-icon {
+  transform: rotate(180deg); /* Point up by default */
+  transition: transform 0.3s ease;
+}
+.dual-range-wrapper {
+  height: 30px;
+  position: relative;
+  background-color: #eee;
+  border-radius: 8px;
+}
+.slider-fill {
+  position: absolute;
+  height: 100%;
+  background-color: rgb(52, 93, 213); /* primary blue */
+  top: 0;
+  left: 0;
+  width: 0%;
+  border-radius: 8px;
+  z-index: 1;
+}
+.dual-range {
+  position: absolute;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  background: none;
+  z-index: 2;
+  appearance: none;
+}
+.dual-range::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+}
+.dual-range::-moz-range-track {
+  height: 6px;
+  background: transparent;
+}
+.dual-range::-webkit-slider-thumb {
+  pointer-events: auto;
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  background: rgb(52, 93, 213);
+  border-radius: 50%;
+  border: none;
+  margin-top: -5px;
+  position: relative;
+  z-index: 3;
+}
+
+.dual-range::-moz-range-thumb {
+  pointer-events: auto;
+  height: 16px;
+  width: 16px;
+  background: rgb(52, 93, 213);
+  border-radius: 50%;
+  border: none;
+  position: relative;
+  z-index: 3;
+}
+
+
+
+.toggle-header:not(.active) .rotate-icon {
+  transform: rotate(0deg); /* Point down only when collapsed */
+}
+
+    .toggle-header.active .rotate-icon { transform: rotate(180deg); }
+    .form-select { width: 15rem; }
+    .dual-range-wrapper { position: relative; height: 30px; width: 12rem; } /* Adjusted width */
+    .dual-range { width: 100%; } /* Ensure slider fits new width */
+    .slider-track { width: 100%; } /* Track matches container */
+    input[type="range"].dual-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #ddd; /* This makes the horizontal track visible */
+  border-radius: 3px;
+  outline: none;
+  background: rgb(52, 93, 213);
+}
+input[type="range"].dual-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: rgb(52, 93, 213);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  margin-top: -5px; /* Aligns thumb vertically on track */
+}
+
+input[type="range"].dual-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: rgb(52, 93, 213);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+input[type="range"].dual-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  outline: none;
+  background: linear-gradient(to right, rgb(52, 93, 213) 0%, #ddd 0%);
+}
+  .threeinfo{
+  color: white;
+  margin: 1rem;
+}
+.toggle-info.btn:hover,
+.toggle-info.btn:focus {
+  background-color: rgb(52, 93, 213) !important; /* original background */
+  color: white !important;              /* ensure icon/text stays white */
+  border: none !important;              /* remove any border changes */
+  box-shadow: none !important;          /* avoid Bootstrap focus outline */
+}
+.modal-xl .modal-content {
+  min-height: 90vh; /* 80% of viewport height, adjust as needed */
+  min-width:80vw;
+
+}
+.modal-body {
+  max-height: 80vh;
+  overflow-y: hidden;
+}
+/* Glassmorphism Modal Styling */
+.modal-content.glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #fff;
+}
+
+.modal-glass-tag {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  text-align: center;
+  flex: 1;
+  min-width: 120px;
+  color: #595959;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.modal-glass-tag i {
+  margin-right: 6px;
+}
+#modalCarDesc {
+  margin-left: 3rem;
+  margin-bottom: 3rem;
+  font-weight: 500;
+  color: rgb(215, 215, 215) !important;
+}
+.carModalImg {
+  display: flex;
+  flex-direction: column; /* this is the correct value */
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* ensures full height */
+  margin-top:5rem;
+}
+.carModalImg .btn{
+  font-size:1.5rem;
+  font-weight:500;
+  transform:scale(1);
+  background-color:white;
+  color:white;
+  translate: 5rem 5rem;
+}
+.carModalImg .btn:hover{
+  background-color:#eee;
+  color:white;
+  transform:scale(1.2);
+}
+#modalCarName {
+  color: black;
+}
+
+#modalCarDesc {
+  margin-left: 3rem;
+  margin-bottom: 3rem;
+  font-weight:500;
+}
+
+.modal-glass-tag {
+  max-width:11rem;
+  height:5rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.modal-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 0.4fr);
+  gap: 1rem;
+  font-size: 1.2rem; /* adjust to 5rem if needed */
+  color: black;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-glass-tag {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.confDivv{
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #595959;
+  max-width:22rem;
+  margin:1rem;
+  padding:1rem;
+}
+input[type="range"].dual-range {
+  background: linear-gradient(to right, rgb(52, 93, 213) 0%, #ddd 0%);
+}
+.dual-range::-webkit-slider-thumb {
+  background: rgb(52, 93, 213);
+}
+.dual-range::-moz-range-thumb {
+  background: rgb(52, 93, 213);
+}
+#maxPrice {
+  margin-top: 1rem;
+}
+.dual-range {
+  margin-top: 1rem;
+}
+input[type="date"] {
+  color: white;
+  border: 1px solid rgb(52, 93, 213);
+  font-weight: 500;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: hue-rotate(90deg) brightness(0.9); /* green-ish tint */
+}
+input[type="date"]:focus {
+  outline: none;
+  border-color: rgb(52, 93, 213);
+  box-shadow: 0 0 5px rgb(52, 93, 213);
+}
+.glass {
+  background: rgba(255, 255, 255, 0.15); /* semi-transparent */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  color: black;
+}
+.card.glass {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+.card__image {
+  border-radius: 12px;
+}
+body:not(.light-mode) .card.glass .card-title h2,
+body:not(.light-mode) .card.glass .card-title h2 small,
+body:not(.light-mode) .card.glass .card-description,
+body:not(.light-mode) .card.glass .threeinfo,
+body:not(.light-mode) .card.glass .card-description i,
+body:not(.light-mode) .card.glass .threeinfo i,
+body:not(.light-mode) .card.glass .card-flap,
+body:not(.light-mode) .card.glass .card-flap div,
+body:not(.light-mode) .card.glass .toggle-info span {
+  color: white !important;
+  fill: white !important;
+}
+
+.search-box {
+  background: rgba(158, 158, 158, 0.3); /* dark background with opacity */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white; /* light text for dark background */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+}
+
+.search-box .form-label,
+.search-box .btn {
+font-size:1.2rem;
+  font-family:"Cambria";
+  color:white;
+}
+
+.search-box .form-select,
+.search-box input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(39, 73, 176);
+}
+
+.search-box .form-select:focus,
+.search-box input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #6c757d;
+  color: black;
+}
+
+.search-box .btn {
+  background-color:rgb(39, 73, 176);
+  border: none;
+}
+
+.search-box .btn:hover {
+  background-color:#3366ff;
+}
+/* Optional: If using Bootstrap buttons with text inside */
+.card.glass .btn-outline-primary {
+  color: white;
+  border-color: white;
+}
+
+.card.glass .btn-outline-primary:hover {
+  background-color: white;
+  color: #000;
+}
+.invalid-date {
+  border-color: red !important;
+  background-color: #ffe5e5 !important;
+  color: red !important;
+}
+
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 1); /* Darker overlay */
+  backdrop-filter: blur(20px); /* Optional: slight blur effect */
+}
+
+input[type="date"]:not(.has-value)::before {
+  content: attr(data-placeholder);
+  color: whitesmoke !important;
+  position: absolute;
+  pointer-events: none;
+}
+.choose-option {
+    background-color: rgb(219, 218, 218);
+}
+  
+body.light-mode {
+  background: #ebebeb !important;
+  color: #000000 !important;
+}
+
+body.light-mode .search-box {
+  background: rgba(200, 200, 200, 0.3) !important;
+  color: #000 !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .search-box input,
+body.light-mode .search-box select {
+  background-color: #f0f0f0 !important;
+  color: #333 !important;
+  border: 1px solid #bbb !important;
+}
+body.light-mode .card-description,
+body.light-mode .card-flap{
+  background-color: #d6d6d6;
+}
+body.light-mode .search-box input:focus,
+body.light-mode .search-box select:focus {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #888 !important;
+}
+
+body.light-mode .form-label,
+body.light-mode .card-title h2,
+body.light-mode .card-title h2 small{
+  color: #000 !important;
+}
+
+body.light-mode .card.glass {
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: #000 !important;
+  border: 1px solid #ccc !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.light-mode .btn-outline-primary {
+  color: #333 !important;
+  border-color: #333 !important;
+}
+body.light-mode .btn-outline-primary:hover {
+  background-color: rgb(52, 93, 213) !important;
+  color: white !important;
+}
+body.light-mode .read-more-btn{
+color:white !important;
+}
+body.light-mode .card-description{
+  color:rgb(53, 52, 52) !important;
+}
+body.light-mode .search-box{
+  background: rgba(117, 117, 117, 0.3); /* dark background with opacity */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 15px;
+  border: 1px solid rgba(161, 161, 161, 0.1);
+  color: white; /* light text for dark background */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+}
