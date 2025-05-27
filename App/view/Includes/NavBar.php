@@ -37,9 +37,7 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
                     <div class="dropdown-menu">
                         <ul>
                             <li class="user-info"><?php echo htmlspecialchars($username); ?></li>
-                            <li><a href="#"><i class="fas fa-user-circle"></i> My Profile</a></li>
-                            <li><a href="#"><i class="fas fa-car"></i> My Rentals</a></li>
-                            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><a href="Profile.php"><i class="fas fa-user-circle"></i> My Profile</a></li>
                             <li class="logout"><a href="index.php?action=logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
                     </div>
