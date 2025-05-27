@@ -266,7 +266,9 @@ try {
    data-power="<?= htmlspecialchars($car->power_type) ?>"
    data-location="<?= htmlspecialchars($car->location) ?>"
    data-wheels="<?= htmlspecialchars($car->wheels) ?>"
-   data-brakes="<?= htmlspecialchars($car->brakes) ?>">
+   data-brakes="<?= htmlspecialchars($car->brakes) ?>"
+  data-id="<?= $car->id ?>"
+>
   Read More
 </a>
     </div>
@@ -317,7 +319,7 @@ try {
           </div>
           <div class="col-md-6 carModalImg d-flex align-items-center justify-content-center">
            <img id="modalCarImage" class="img-fluid rounded" style="max-height: 400px;" src="" alt="Car Image" />
-           <button class="btn btn-light text-dark mt-3" onclick="window.location.href='booking.php'">Rent Now</button>
+           <a id="rentNowBtn" class="btn btn-light text-dark mt-3" href="#">Rent Now</a>
          </div>
         </div>
       </div>
@@ -328,6 +330,27 @@ try {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="<?= BASE_URL ?>/Public/js/codeListing.js"></script>
+<script>
+  carModal.addEventListener('show.bs.modal', function (event) {
+  const button = event.relatedTarget;
+  document.getElementById('modalCarName').textContent = button.getAttribute('data-name');
+  document.getElementById('modalCarImage').src = button.getAttribute('data-image');
+  document.getElementById('modalCarDesc').textContent = button.getAttribute('data-desc');
+  document.getElementById('modalCarPrice').textContent = button.getAttribute('data-price');
+  document.getElementById('modalColor').textContent = button.getAttribute('data-color') ?? 'Unknown';
+  document.getElementById('modalTransmission').textContent = button.getAttribute('data-transmission') ?? 'Manual';
+  document.getElementById('modalPower').textContent = button.getAttribute('data-power') ?? 'Gasoline';
+  document.getElementById('modalLocation').textContent = button.getAttribute('data-location') ?? 'N/A';
+  document.getElementById('modalWheels').textContent = button.getAttribute('data-wheels') ?? 'Not specified';
+  document.getElementById('modalBrakes').textContent = button.getAttribute('data-brakes') ?? 'Not specified';
+
+  // Set the Rent Now button link dynamically
+  const carId = button.getAttribute('data-id');
+  const rentNowBtn = document.getElementById('rentNowBtn');
+  rentNowBtn.href = `booking.php?car_id=${carId}`;
+});
+
+  </script>
 <script>
   const unavailableDates = <?= json_encode($unavailableDates) ?>;
   const minAvailableDate = "<?= $dateRange['min_start'] ?>";

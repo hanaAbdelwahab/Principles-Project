@@ -1,3 +1,4 @@
+<!--C:\xampp\htdocs\Final-Principles\App\Controller\BookingController.php-->
 <?php
 
 namespace App\Controller;
@@ -14,21 +15,25 @@ class BookingController {
     /**
      * Display the booking page
      */
-    public function index() {
-        // For simplicity, we're assuming there's only one car
-        $carId = 1;
-        $car = $this->bookingModel->getCarById($carId);
-        
-        // Get car availability
-        $availableFrom = $car['available_from'];
-        $availableTo = $car['available_to'];
-        
-        // Get existing bookings to show unavailable dates
-        $bookings = $this->bookingModel->getCarBookings($carId);
-        
-        // Load the view
-        include_once 'App/View/booking.php';
-    }
+    // BookingController.php
+public function index() {
+    $carId = isset($_GET['car_id']) ? (int)$_GET['car_id'] : 1;
+    $car = $this->bookingModel->getCarById($carId);
+
+    // Debug: print the car info to verify data
+    echo '<pre>';
+    print_r($car);
+    echo '</pre>';
+
+    // Proceed with other data needed for booking page
+    $availableFrom = $car['available_from'] ?? date('Y-m-d');
+    $availableTo = $car['available_to'] ?? date('Y-m-d', strtotime('+1 month'));
+    $bookings = $this->bookingModel->getCarBookings($carId);
+
+    include_once 'App/View/booking.php';
+}
+
+
     
     /**
      * Process booking request

@@ -9,58 +9,60 @@ class BookingModel {
         $this->db = $db;
     }
 
-    public function getCarById($carId) {
+    // Fetch car details by ID
+    public function getCarById(int $carId): ?array {
         $query = "SELECT * FROM cars WHERE id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$carId]);
-        return $stmt->fetch();
+        $car = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $car ?: null;
     }
 
-    public function getCarBookings($carId) {
+    // Fetch bookings for the given car that are not cancelled
+    public function getCarBookings(int $carId): array {
         $query = "SELECT * FROM bookings WHERE car_id = ? AND status != 'cancelled'";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$carId]);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function checkAvailability($carId, $startDate, $endDate) {
+    // Check availability between requested dates for the car
+    public function checkAvailability(int $carId, string $startDate, string $endDate): array {
         $car = $this->getCarById($carId);
+        if (!$car) {
+            return ['available' => false, 'message' => 'Car not found.'];
+        }
+
         $carAvailFrom = new \DateTime($car['start_date']);
         $carAvailTo = new \DateTime($car['end_date']);
-
         $requestStart = new \DateTime($startDate);
         $requestEnd = new \DateTime($endDate);
 
         if ($requestStart < $carAvailFrom || $requestEnd > $carAvailTo) {
-            return [
-                'available' => false,
-                'message' => 'Car is not available for the requested dates.'
-            ];
+            return ['available' => false, 'message' => 'Car is not available for the requested dates.'];
         }
 
         $bookings = $this->getCarBookings($carId);
         foreach ($bookings as $booking) {
             $bookingStart = new \DateTime($booking['start_date']);
             $bookingEnd = new \DateTime($booking['end_date']);
-
+            // Check if requested dates overlap with existing bookings
             if (($requestStart <= $bookingEnd) && ($requestEnd >= $bookingStart)) {
-                return [
-                    'available' => false,
-                    'message' => 'Car is already booked for some or all of the requested dates.'
-                ];
+                return ['available' => false, 'message' => 'Car is already booked for some or all of the requested dates.'];
             }
         }
 
-        return [
-            'available' => true,
-            'message' => 'Car is available for the requested dates.'
-        ];
+        return ['available' => true, 'message' => 'Car is available for the requested dates.'];
     }
 
-    public function calculatePrice($carId, $startDate, $endDate) {
+    // Calculate total price based on price per day and number of days
+    public function calculatePrice(int $carId, string $startDate, string $endDate): array {
         $car = $this->getCarById($carId);
-        $pricePerDay = $car['price_per_day'];
+        if (!$car) {
+            return ['price_per_day' => 0, 'days' => 0, 'total_price' => 0];
+        }
 
+        $pricePerDay = (float) $car['price_per_day'];
         $start = new \DateTime($startDate);
         $end = new \DateTime($endDate);
         $interval = $start->diff($end);
@@ -69,20 +71,20 @@ class BookingModel {
         return [
             'price_per_day' => $pricePerDay,
             'days' => $days,
-            'total_price' => $pricePerDay * $days
+            'total_price' => $pricePerDay * $days,
         ];
     }
 
-    public function createBooking($carId, $userId, $startDate, $endDate, $totalPrice) {
-        $query = "INSERT INTO bookings (car_id, user_id, start_date, end_date, total_price, status, created_at) 
+    // Create a booking record
+    public function createBooking(int $carId, int $userId, string $startDate, string $endDate, float $totalPrice) {
+        $query = "INSERT INTO bookings (car_id, user_id, start_date, end_date, total_price, status, created_at)
                   VALUES (?, ?, ?, ?, ?, 'pending', NOW())";
         $stmt = $this->db->prepare($query);
         $success = $stmt->execute([$carId, $userId, $startDate, $endDate, $totalPrice]);
 
         if ($success) {
             return $this->db->lastInsertId();
-        } else {
-            return false;
         }
+        return false;
     }
 }
