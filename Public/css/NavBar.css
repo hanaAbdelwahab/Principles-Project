@@ -1,0 +1,225 @@
+/* NavBar.css */
+/* Common styles for navbar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary-color: #3366ff;
+    --dark-bg: #111;
+    --light-text: #fff;
+    --gray-text: #777;
+    --purple-icon: #c039fb;
+    --orange-icon: #ff9933;
+    --green-icon: #4cd964;
+}
+
+body {
+    background-color: #f8f8f8;
+    color: #000000;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+header {
+    background-color: transparent;
+    padding: 20px 0;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1000;
+}
+
+/* Logo styling */
+.logo {
+    position: relative;
+    top: 5px;
+}
+
+.logo a {
+    display: inline-block;
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.logo img {
+    height: 60px;
+    vertical-align: middle;
+}
+
+/* Navigation menu */
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: var(--dark-bg);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+/* Auth buttons styling */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sign-in, .sign-up {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.sign-in {
+    background-color: transparent;
+    border: 1px solid #3366ff;
+    color: #3366ff;
+}
+
+.sign-up {
+    background-color: #3366ff;
+    color: white;
+    border: none;
+}
+
+/* User profile section styles */
+.welcome-message {
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.user-profile {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.user-icon {
+    width: 35px;
+    height: 35px;
+    background-color: #3366ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-icon i {
+    color: white;
+    font-size: 18px;
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 100;
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu ul li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu ul li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu ul li.user-info {
+    font-weight: bold;
+    background-color: #f7f7f7;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.dropdown-menu ul li a {
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.dropdown-menu ul li i {
+    margin-right: 10px;
+    color: #3366ff;
+}
+
+.dropdown-menu ul li.logout a {
+    color: #e53935;
+}
+
+.dropdown-menu ul li.logout i {
+    color: #e53935;
+}
+
+.dropdown-menu ul li:hover {
+    background-color: #f9f9f9;
+}
+
+/* Mobile-friendly adjustments */
+@media (max-width: 768px) {
+    .welcome-message {
+        display: none; /* Hide welcome message on mobile */
+    }
+    
+    .dropdown-menu {
+        right: -15px; /* Adjust position on mobile */
+    }
+}

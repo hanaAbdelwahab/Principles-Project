@@ -1,4 +1,4 @@
-// JavaScript for CarRent Homepage
+//Homepage.js
 
 document.addEventListener('DOMContentLoaded', function() {
     

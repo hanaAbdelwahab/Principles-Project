@@ -1,3 +1,4 @@
+//Login.js
 document.addEventListener("DOMContentLoaded", () => {
     // Remove the automatic adding of "active" class to let the page
     // start with the login form showing first

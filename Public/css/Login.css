@@ -1,3 +1,4 @@
+/* Login.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* Reset and base styles */
@@ -19,7 +20,6 @@
 }
 
 body {
-    background: url('/images/background.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -29,7 +29,6 @@ body {
     overflow: hidden;
     padding-top: 80px;
 }
-
 /* Ensure consistent nav styling between homepage and login page */
 header {
     background-color: transparent;
@@ -52,83 +51,6 @@ header .container {
     border-radius: 0;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo a {
-    color: var(--primary-color);
-    font-size: 24px;
-    font-weight: 700;
-    text-decoration: none;
-    font-family: 'Poppins', sans-serif;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: var(--dark-bg) !important;
-    text-decoration: none;
-    font-weight: 500 !important;
-    font-size: 16px !important;
-    transition: color 0.3s;
-    font-family: 'Poppins', sans-serif !important;
-}
-
-nav ul li a:hover {
-    color: var(--primary-color) !important;
-}
-
-.auth-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.auth-buttons button {
-    padding: 8px 20px;
-    border-radius: 5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Poppins', sans-serif;
-}
-
-.auth-buttons .signin-btn {
-    background-color: transparent;
-    border: 1px solid #ddd;
-    color: var(--dark-bg) !important;
-    font-size: 16px !important;
-}
-
-.auth-buttons .signup-btn {
-    background-color: var(--primary-color);
-    border: none;
-    color: var(--light-text) !important;
-    font-size: 16px !important;
-}
-.auth-buttons .signup-btn:hover {
-    background-color: #81d0e8;
-}
-
-.auth-buttons .signin-btn {
-    background-color: transparent;
-    border: 1px solid #ddd;
-    color: var(--dark-bg);
-    padding: 8px 20px;
-    border-radius: 5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s;
-}
 
 /* Login container styles */
 .container {
@@ -172,7 +94,7 @@ nav ul li a:hover {
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
-    border: 1px solid transparent;
+    border: 1px  transparent;
     border-radius: 8px;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -237,7 +159,6 @@ nav ul li a:hover {
     font-size: 13px;
     border-radius: 8px;
     width: 100%;
-    outline: none;
 }
 
 /* File upload styling */
@@ -287,45 +208,7 @@ nav ul li a:hover {
     text-overflow: ellipsis;
 }
 
-/* Role selection styling */
-.role-selection {
-    margin: 5px 0;
-    width: 100%;
-}
-
-.role-label {
-    display: flex;
-    align-items: center;
-    background-color: #eee;
-    border-radius: 8px;
-    padding: 8px 15px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 13px;
-    color: var(--gray-text);
-}
-
-.role-label:hover {
-    background-color: #e0e0e0;
-}
-
-.role-label i {
-    margin-right: 8px;
-    color: var(--primary-color);
-}
-
-.role-label select {
-    background-color: transparent;
-    border: none;
-    margin-left: 10px;
-    padding: 0;
-    font-size: 13px;
-    color: var(--gray-text);
-    outline: none;
-    cursor: pointer;
-    width: 100%;
-}
-
+/* Fix for the blue border issue */
 .form-container {
     position: absolute;
     top: 0;
@@ -338,68 +221,29 @@ nav ul li a:hover {
     width: 50%;
     z-index: 2;
 }
-
-.container.active .sign-in {
-    transform: translateX(100%);
-}
-
 .sign-up {
     left: 0;
     width: 50%;
     opacity: 0;
     z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    visibility: hidden;
+    transition: opacity 0.6s, z-index 0.6s, visibility 0.6s;
 }
 
-/* Fix for the sign-up form */
-.container.active .sign-up {
+
+#container.active .sign-up {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
-    animation: move 0.6s;
+    visibility: visible;
+    pointer-events: auto;
+    user-select: auto;
+    animation: show 0.6s;
 }
 
-/* Fix for h1 in sign-up form to ensure visibility */
-.form-container.sign-up h1 {
-    margin-bottom: 5px;  /* Reduced margin */
-    color: #000;  /* Ensure visible text color */
-    font-size: 22px;  /* Slightly smaller */
-    font-weight: 700;
-    z-index: 10;
-    position: relative;
-}
-
-@keyframes move {
-    0%, 49.99% {
-        opacity: 0;
-        z-index: 1;
-    }
-    50%, 100% {
-        opacity: 1;
-        z-index: 5;
-    }
-}
-
-.social-icons {
-    margin: 20px 0;
-}
-
-.social-icons a {
-    border: 1px solid #ccc;
-    border-radius: 20%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 3px;
-    width: 40px;
-    height: 40px;
-    transition: color 0.3s, border-color 0.3s;
-}
-
-.social-icons a:hover {
-    color: #f19f13;
-    border-color: #f19f13;
-}
-
+/* Toggle container and panels styling */
 .toggle-container {
     position: absolute;
     top: 0;
@@ -412,15 +256,10 @@ nav ul li a:hover {
     z-index: 1000;
 }
 
-.container.active .toggle-container {
-    transform: translateX(-100%);
-    border-radius: 0 150px 100px 0;
-}
-
 .toggle {
-    background-color: #0e2830;
+    background-color: #4512bd;
     height: 100%;
-    background: #0e2830;
+    background: linear-gradient(to right, #5c6bc0, #3f51b5);
     color: #fff;
     position: relative;
     left: -100%;
@@ -428,10 +267,6 @@ nav ul li a:hover {
     width: 200%;
     transform: translateX(0);
     transition: all 0.6s ease-in-out;
-}
-
-.container.active .toggle {
-    transform: translateX(50%);
 }
 
 .toggle-panel {
@@ -453,164 +288,220 @@ nav ul li a:hover {
     transform: translateX(-200%);
 }
 
-.container.active .toggle-left {
-    transform: translateX(0);
-}
-
 .toggle-right {
     right: 0;
     transform: translateX(0);
 }
 
-.container.active .toggle-right {
+/* Animation classes */
+#container.active .sign-in {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+#container.active .sign-up {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+@keyframes show {
+    0%,
+    49.99% {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+#container.active .toggle-container {
+    transform: translateX(-100%);
+    border-radius: 0 150px 100px 0;
+}
+
+#container.active .toggle {
+    transform: translateX(50%);
+}
+
+#container.active .toggle-left {
+    transform: translateX(0);
+}
+
+#container.active .toggle-right {
     transform: translateX(200%);
 }
-
-.container button.hidden:hover {
-    background-color: transparent;
-    border-color:#81d0e8;
+/* Make the 'Create Account' heading blue in the sign-up panel */
+.sign-up h1 {
+    color: var(--primary-color) !important;
 }
-
-/* Modal styles */
+/* Modal styling */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 9999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
 }
 
-.close-button:hover,
-.close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.container select {
-    background-color: #eee;
-    border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
+.modal.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
+    background-color: white;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     text-align: center;
-    height: auto;
-    min-height: 100px;
-    position: relative;
+    max-width: 400px;
+    width: 90%;
+    transform: scale(0.8);
+    transition: all 0.3s;
 }
 
-.modal-content select {
-    background-color: #eee;
-    border: none;
-    margin: 50px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 80%;
-    outline: none;
-}
-
-.modal-content button {
-    background-color: #f19f13;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 15px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 80%;
+.modal.show .modal-content {
+    transform: scale(1);
 }
 
 .close-button {
     color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s;
 }
 
-#forgot-password-modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+.close-button:hover {
+    color: black;
 }
 
-#forgot-password-modal .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    border-radius: 8px;
-    text-align: center;
-    height: 300px;
-    position: relative;
-}
-
-#forgot-password-modal .modal-content select {
+/* Select element styling */
+select {
     background-color: #eee;
     border: none;
-    margin: 50px 0;
+    margin: 5px 0;
     padding: 10px 15px;
     font-size: 13px;
     border-radius: 8px;
-    width: 80%;
-    outline: none;
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
 }
 
-#forgot-password-modal .modal-content button {
-    background-color: #f19f13;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 15px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+/* Forgot password modal styling */
+#forgot-password-modal .modal-content {
+    padding: 25px;
+}
+
+#forgot-password-modal h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#forgot-password-modal p {
+    margin: 15px 0 5px;
+    font-size: 14px;
+}
+
+#forgot-password-modal input,
+#forgot-password-modal select {
+    margin: 10px 0;
+}
+
+#forgot-password-modal button {
     margin-top: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 80%;
+}
+/* Remove default blue outline from all inputs, buttons, and form containers */
+input:focus, button:focus, select:focus, textarea:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 
-#forgot-password-modal .close-button {
-    color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+.form-container:focus, .form-container:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+/* Remove blue border/outline in primary color from all form elements */
+input:focus, button:focus, select:focus, textarea:focus,
+.form-container:focus, .form-container:active,
+.form-container, .sign-in, .sign-up {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+/* Remove any blue border or box-shadow from form containers */
+.form-container,
+.form-container:focus,
+.form-container:active,
+.sign-in,
+.sign-up,
+.sign-in:focus,
+.sign-up:focus,
+.sign-in:active,
+.sign-up:active {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+*,
+*:focus,
+*:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+/* Prevent focus and pointer events on hidden panel */
+.sign-up:not(#container.active .sign-up) {
+    pointer-events: none;
+    user-select: none;
+}
+/* Make sign-up panel background and border white, and all focus states white as well */
+.sign-up {
+    background: #fff !important;
+    border: 2px solid #fff !important;
+    box-shadow: none !important;
+}
+
+/* Make all headings in sign-up blue for visibility */
+.sign-up h1 {
+    color: #3366ff !important; /* or use var(--primary-color) if you prefer */
+}
+
+/* Ensure form-container backgrounds and borders are white */
+.form-container {
+    background: #fff !important;
+    border: 2px solid #fff !important;
+    box-shadow: none !important;
+}
+
+/* Remove blue border/focus from all focusable elements in form containers */
+.form-container *:focus,
+.sign-up *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #fff !important;
 }

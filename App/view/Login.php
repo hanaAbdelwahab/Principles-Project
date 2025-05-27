@@ -123,30 +123,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['forgot-submit'])) {
     </head>
 
     <body>
-    <!-- Navigation Bar - Placed OUTSIDE the login container -->
-    <header>
-        <div class="container">
-            <div class="navbar">
-                <div class="logo">
-                    <a href="#">CarRent</a>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Car Catalogue</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Help</a></li>
-                    </ul>
-                </nav>
-                <div class="auth-buttons">
-                    <button class="signin-btn">Sign in</button>
-                    <button class="signup-btn">Sign Up</button>
-                </div>
-            </div>
-        </div>
-    </header>
+      <?php include $_SERVER['DOCUMENT_ROOT'] . '/PrincipleProject/App/view/Includes/NavBar.php'; ?>
 
     <!-- Login/Signup Container -->
+     
     <div class="container" id="container">
         <div class="form-container sign-up">
             <form id="sign-up-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
