@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Model/IBookingRepository.php';
+require_once __DIR__ . '/../Model/IAdminBookingRepository.php';
 
 class BookingController {
     private $bookingRepo;

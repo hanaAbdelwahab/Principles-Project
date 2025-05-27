@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../Model/User.php';
+include_once __DIR__ . '/../Model/AdminUser.php';
 
 class UserController {
     private $user;

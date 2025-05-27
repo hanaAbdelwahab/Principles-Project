@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../Model/Car.php';
+include_once __DIR__ . '/../Model/AdminCar.php';
 
 interface PricingStrategy {
     public function calculate($baseRate);

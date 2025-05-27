@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../Controller/UserController.php';
-require_once __DIR__ . '/../Model/User.php';
+require_once __DIR__ . '/../Model/AdminUser.php';
 
 $controller = new UserController();
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
         $idPath,
         $_POST['favorite_color']
     );
-    header("Location: manage-users.php");
+    header("Location: admin-manage-users.php");
     exit;
 }
 
@@ -54,14 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'update') {
         $licensePath,
         $idPath
     );
-    header("Location: manage-users.php");
+    header("Location: admin-manage-users.php");
     exit;
 }
 
 // Handle Delete
 if (isset($_GET['delete'])) {
     $controller->deleteUser($_GET['delete']);
-    header("Location: manage-users.php");
+    header("Location: admin-manage-users.php");
     exit;
 }
 
@@ -91,16 +91,16 @@ $users = array_filter($controller->getAllUsers(), function($user) use ($search, 
         <nav class="sidebar-nav">
             <ul>
                <li class="nav-item">
-                <a href="analytics-overview.php"><span>Analytics Overview</span></a>
+                <a href="admin-analytics-overview.php"><span>Analytics Overview</span></a>
             </li>
                 <li class="nav-item">
-                    <a href="manage-cars.php"><span>Manage Cars</span></a>
+                    <a href="admin-manage-cars.php"><span>Manage Cars</span></a>
                 </li>
                 <li class="nav-item active">
                     <a href="#"><span>Manage Users</span></a>
                 </li>
                   <li class="nav-item">
-                <a href="manage-bookings.php"><span>Manage Bookings</span></a>
+                <a href="admin-manage-bookings.php"><span>Manage Bookings</span></a>
             </li>
             </ul>
         </nav>

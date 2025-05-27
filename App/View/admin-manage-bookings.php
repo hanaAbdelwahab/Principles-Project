@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../Controller/BookingController.php';
-require_once __DIR__ . '/../Model/Booking.php';
+require_once __DIR__ . '/../Model/AdminBooking.php';
 
 $bookingRepo = new Booking();
 $bookingController = new BookingController($bookingRepo);
@@ -81,10 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     <nav class="sidebar-nav">
       <ul>
          <li class="nav-item">
-                <a href="analytics-overview.php"><span>Analytics Overview</span></a>
+                <a href="admin-analytics-overview.php"><span>Analytics Overview</span></a>
             </li>
-        <li class="nav-item"><a href="manage-cars.php"><span>Manage Cars</span></a></li>
-        <li class="nav-item"><a href="manage-users.php"><span>Manage Users</span></a></li>
+        <li class="nav-item"><a href="admin-manage-cars.php"><span>Manage Cars</span></a></li>
+        <li class="nav-item"><a href="admin-manage-users.php"><span>Manage Users</span></a></li>
         <li class="nav-item active"><a href="#"><span>Manage Bookings</span></a></li>
       </ul>
     </nav>

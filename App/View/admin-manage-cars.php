@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../Controller/CarController.php';
-require_once __DIR__ . '/../Model/Car.php';
+require_once __DIR__ . '/../Model/AdminCar.php';
 
 $controller = new CarController();
 
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST["action"] === "add") {
     $_POST['image_filename'] = $imagePath;
 
     $controller->createCar($_POST);
-    header("Location: manage-cars.php");
+    header("Location: admin-manage-cars.php");
     exit;
 }
 
@@ -35,13 +35,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST["action"] === "update") {
     }
 
     $controller->updateCar($_POST['id'], $_POST);
-    header("Location: manage-cars.php");
+    header("Location: admin-manage-cars.php");
     exit;
 }
 
 if (isset($_GET["delete"])) {
     $controller->deleteCar($_GET["delete"]);
-    header("Location: manage-cars.php");
+    header("Location: admin-manage-cars.php");
     exit;
 }
 
@@ -110,7 +110,7 @@ $cars = getFilteredCars($filters);
             <nav class="sidebar-nav">
                 <ul>
                      <li class="nav-item">
-                <a href="analytics-overview.php"><span>Analytics Overview</span></a>
+                <a href="admin-analytics-overview.php"><span>Analytics Overview</span></a>
             </li>
                     <li class="nav-item active">
                         <a href="#">
@@ -118,12 +118,12 @@ $cars = getFilteredCars($filters);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="manage-users.php">
+                        <a href="admin-manage-users.php">
                             <span>Manage Users</span>
                         </a>
                     </li>
                       <li class="nav-item">
-                <a href="manage-bookings.php"><span>Manage Bookings</span></a>
+                <a href="admin-manage-bookings.php"><span>Manage Bookings</span></a>
             </li>
                 </ul>
             </nav>

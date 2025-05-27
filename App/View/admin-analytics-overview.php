@@ -4,9 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../Model/User.php';
-require_once __DIR__ . '/../Model/Car.php';
-require_once __DIR__ . '/../Model/Booking.php';
+require_once __DIR__ . '/../Model/AdminUser.php';
+require_once __DIR__ . '/../Model/AdminCar.php';
+require_once __DIR__ . '/../Model/AdminBooking.php';
 
 try {
     $userModel = new User();
@@ -66,10 +66,10 @@ try {
     </div>
     <nav class="sidebar-nav">
       <ul>
-        <li class="nav-item active"><a href="analytics-overview.php"><span>Analytics Overview</span></a></li>
-        <li class="nav-item"><a href="manage-cars.php"><span>Manage Cars</span></a></li>
-        <li class="nav-item"><a href="manage-users.php"><span>Manage Users</span></a></li>
-        <li class="nav-item"><a href="manage-bookings.php"><span>Manage Bookings</span></a></li>
+        <li class="nav-item active"><a href="admin-analytics-overview.php"><span>Analytics Overview</span></a></li>
+        <li class="nav-item"><a href="admin-manage-cars.php"><span>Manage Cars</span></a></li>
+        <li class="nav-item"><a href="admin-manage-users.php"><span>Manage Users</span></a></li>
+        <li class="nav-item"><a href="admin-manage-bookings.php"><span>Manage Bookings</span></a></li>
       </ul>
     </nav>
   </aside>

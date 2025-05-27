@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/IBookingRepository.php';
+require_once __DIR__ . '/IAdminBookingRepository.php';
 
 class Booking implements IBookingRepository {
     private $db;
