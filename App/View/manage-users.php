@@ -86,16 +86,22 @@ $users = array_filter($controller->getAllUsers(), function($user) use ($search, 
 <div class="dashboard">
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h1 class="logo">CarHubbbbbb Admin</h1>
+            <h1 class="logo">CarHub Admin</h1>
         </div>
         <nav class="sidebar-nav">
             <ul>
+               <li class="nav-item">
+                <a href="analytics-overview.php"><span>Analytics Overview</span></a>
+            </li>
                 <li class="nav-item">
                     <a href="manage-cars.php"><span>Manage Cars</span></a>
                 </li>
                 <li class="nav-item active">
                     <a href="#"><span>Manage Users</span></a>
                 </li>
+                  <li class="nav-item">
+                <a href="manage-bookings.php"><span>Manage Bookings</span></a>
+            </li>
             </ul>
         </nav>
     </aside>

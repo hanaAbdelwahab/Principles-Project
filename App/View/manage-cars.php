@@ -109,6 +109,9 @@ $cars = getFilteredCars($filters);
             </div>
             <nav class="sidebar-nav">
                 <ul>
+                     <li class="nav-item">
+                <a href="analytics-overview.php"><span>Analytics Overview</span></a>
+            </li>
                     <li class="nav-item active">
                         <a href="#">
                             <span>Manage Cars</span>
@@ -119,6 +122,9 @@ $cars = getFilteredCars($filters);
                             <span>Manage Users</span>
                         </a>
                     </li>
+                      <li class="nav-item">
+                <a href="manage-bookings.php"><span>Manage Bookings</span></a>
+            </li>
                 </ul>
             </nav>
         </aside>
