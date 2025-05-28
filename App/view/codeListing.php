@@ -1,7 +1,7 @@
 <!--codeListing.php-->
 <?php
 // Move this PHP code to the TOP of codeListing.php
-define('BASE_URL', '/Final-Principles');
+define('BASE_URL', '/ppt/Principles-Project');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);

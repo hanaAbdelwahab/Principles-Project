@@ -1,6 +1,6 @@
 <?php
 session_start();
-define('BASE_URL', '/Final-Principles');
+define('BASE_URL', '/ppt/Principles-Project');
 
 require_once __DIR__ . '/../config/dp.php';
 require_once __DIR__ . '/../Model/BookingModel.php';

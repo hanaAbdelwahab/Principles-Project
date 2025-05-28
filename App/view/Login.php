@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['forgot-submit'])) {
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 
-        <base href="/Final-Principles/">
+        <base href="/ppt/Principles-Project/">
         <link rel="stylesheet" href="Public/css/Login.css" />
 
         <title>Login/Signup Page</title>
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['forgot-submit'])) {
     </head>
 
     <body>
-      <?php include $_SERVER['DOCUMENT_ROOT'] . '/Final-Principles/App/view/Includes/NavBar.php'; ?>
+      <?php include $_SERVER['DOCUMENT_ROOT'] . '/ppt/Principles-Project/App/view/Includes/NavBar.php'; ?>
 
     <!-- Login/Signup Container -->
      
