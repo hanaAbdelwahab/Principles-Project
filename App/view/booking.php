@@ -1,6 +1,6 @@
 <?php
 session_start();
-define('BASE_URL', '/Final-Principles');
+define('BASE_URL', '/ppt/Principles-Project');
 
 require_once __DIR__ . '/../config/dp.php';
 require_once __DIR__ . '/../Model/BookingModel.php';
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .alert-danger { background-color: #f8d7da; color: #842029; }
     .alert-success { background-color: #d1e7dd; color: #0f5132; }
     .modal {
-  display: none; /* hidden initially */
+  display: none;
   position: fixed;
   z-index: 9999;
   left: 0;
@@ -132,13 +132,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.5);
-
-  /* flexbox centering */
   justify-content: center;
   align-items: center;
   overflow: auto;
-  /* DO NOT set display: flex here */
+  pointer-events: auto;
 }
+
+.modal.active {
+  display: flex;
+}
+
 
 
 .modal-content {
@@ -346,7 +349,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $('#payment_method').val('');
         $('.payment-form').addClass('hidden');
-        modal.css('display', 'flex');
+        modal.addClass('active');
       });
 
       $('.close-modal, #cancel-modal').on('click', function() {

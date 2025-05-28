@@ -2,7 +2,6 @@
 <?php
 // Start the session for user authentication
 session_start();
-// Check if there's a message from logout
 $message = null;
 $message_type = null;
 // Check if the user is already logged in
@@ -123,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['forgot-submit'])) {
     </head>
 
     <body>
-      <?php include $_SERVER['DOCUMENT_ROOT'] . '/Final-Principles/App/view/Includes/NavBar.php'; ?>
+      <?php include $_SERVER['DOCUMENT_ROOT'] . '/ppt/Principles-Project/App/view/Includes/NavBar.php'; ?>
 
     <!-- Login/Signup Container -->
      

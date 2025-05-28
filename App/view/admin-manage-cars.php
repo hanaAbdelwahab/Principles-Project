@@ -1,4 +1,21 @@
 <?php
+session_start();
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    // Clear session and destroy
+    $_SESSION = [];
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
+
+    // Redirect after logout
+    header("Location: Homepage.php");
+    exit;
+}
 require_once __DIR__ . '/../Controller/AdminCarController.php';
 require_once __DIR__ . '/../Model/AdminCar.php';
 
@@ -84,12 +101,9 @@ function getFilteredCars($filters = []) {
     }
 
     $stmt = Database::getInstance()->prepare($query);
+$stmt->execute($params);
+return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($types) {
-        $stmt->bind_param($types, ...$params);
-    }
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 $filters = [
@@ -132,6 +146,9 @@ $cars = getFilteredCars($filters);
                     <li class="nav-item">
                         <a href="admin-manage-bookings.php"><span>Manage Bookings</span></a>
                     </li>
+                    <li class="nav-item">
+      <a href="?action=logout"><span>Logout</span></a> <!-- Added logout link -->
+    </li>
                 </ul>
             </nav>
         </aside>

@@ -9,7 +9,7 @@ $isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
 $username = $isLoggedIn ? $_SESSION['user_name'] : '';
 
 // Get the base URL dynamically
-$baseUrl = 'http://' . $_SERVER['HTTP_HOST'] . "/Final-Principles/";
+$baseUrl = 'http://' . $_SERVER['HTTP_HOST'] . "/ppt/Principles-Project/";
 ?>
 <base href="<?php echo $baseUrl; ?>">
 <link rel="stylesheet" href="Public/css/NavBar.css">

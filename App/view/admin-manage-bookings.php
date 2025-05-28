@@ -1,5 +1,23 @@
 <?php
 session_start();
+// Clear all session data
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    // Clear session and destroy
+    $_SESSION = [];
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
+
+    // Redirect after logout
+    header("Location: Homepage.php");
+    exit;
+}
+
 require_once __DIR__ . '/../config/dp.php';
 require_once __DIR__ . '/../Controller/AdminBookingController.php';
 require_once __DIR__ . '/../Model/AdminBooking.php';
@@ -114,21 +132,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
       <h1 class="logo">CarHub Admin</h1>
     </div>
     <nav class="sidebar-nav">
-      <ul>
-        <li class="nav-item">
-          <a href="admin-analytics-overview.php"><span>Analytics Overview</span></a>
-        </li>
-        <li class="nav-item">
-          <a href="admin-manage-cars.php"><span>Manage Cars</span></a>
-        </li>
-        <li class="nav-item">
-          <a href="admin-manage-users.php"><span>Manage Users</span></a>
-        </li>
-        <li class="nav-item active">
-          <a href="admin-manage-bookings.php"><span>Manage Bookings</span></a>
-        </li>
-      </ul>
-    </nav>
+  <ul>
+    <li class="nav-item">
+      <a href="admin-analytics-overview.php"><span>Analytics Overview</span></a>
+    </li>
+    <li class="nav-item">
+      <a href="admin-manage-cars.php"><span>Manage Cars</span></a>
+    </li>
+    <li class="nav-item">
+      <a href="admin-manage-users.php"><span>Manage Users</span></a>
+    </li>
+    <li class="nav-item active">
+      <a href="admin-manage-bookings.php"><span>Manage Bookings</span></a>
+    </li>
+    <li class="nav-item">
+      <a href="?action=logout"><span>Logout</span></a> <!-- Added logout link -->
+    </li>
+  </ul>
+</nav>
+
   </aside>
 
   <main class="main-content">
@@ -176,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                 <td><?= htmlspecialchars($booking['user_id']) ?></td>
                 <td><?= htmlspecialchars($booking['start_date']) ?></td>
                 <td><?= htmlspecialchars($booking['end_date']) ?></td>
-                <td><?= htmlspecialchars($booking['total_price']) ?></td>
+                <td><?= htmlspecialchars($booking['total_amount']) ?></td>
                 <td><?= htmlspecialchars($booking['status']) ?></td>
                 <td><?= htmlspecialchars($booking['created_at']) ?></td>
                 <td>

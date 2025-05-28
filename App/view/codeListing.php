@@ -1,7 +1,7 @@
 <!--codeListing.php-->
 <?php
 // Move this PHP code to the TOP of codeListing.php
-define('BASE_URL', '/Final-Principles');
+define('BASE_URL', '/ppt/Principles-Project');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -49,73 +49,25 @@ try {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link href="<?= BASE_URL ?>/Public/css/codeListing.css" rel="stylesheet"/>
 <style>
-  .dropdown-menu {
-  display: none;
-  position: absolute;
-  background: #fff;
-  min-width: 150px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  border-radius: 5px;
-  z-index: 9999;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  translate:-15rem -0.5rem;
-}
+.navbar{
 
-/* Show dropdown when active or hovered */
-.dropdown:hover > .dropdown-menu,
-.dropdown.open > .dropdown-menu {
-  display: block;
+border:none; !important
 }
-
-/* Dropdown item styles */
-.dropdown-item {
-  display: block;
-  padding: 8px 15px;
-  color: #333;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background-color: #eee;
-}
+nav.navbar {
+    min-height:5rem;
+     background: rgba(255, 255, 255, 0.4);!important
+  backdrop-filter: blur(20px); !important
+  -webkit-backdrop-filter: blur(10px); !important
+  border-radius: 20px; !important
+  border: 1px solid rgba(255, 255, 255, 0.8);!important 
+  color: #fff; !important
+  }
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg px-5">
-  <a class="navbar-brand" href="#"><img src="../../Public/images/logo.png" alt="Logo" style="width: 190px; height: 60px;"></a>
-  <div class="collapse navbar-collapse w-100">
-   <ul class="navbar-nav mx-auto justify-content-center">
-  <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-  <li class="nav-item"><a class="nav-link" href="#">Cars</a></li>
-  <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-  <li class="nav-item"><a class="nav-link" href="#">View profile</a></li>
-</ul>
-
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-solid fa-user fa-lg text-white"></i>
-        </a>
-        
-        <ul class="dropdown-menu dropdown-menu-end shadow">
-          <li class="px-3 py-2 border-bottom d-flex align-items-center">
-            <div class="avatar-circle">H</div>
-            <div>
-              <strong>Hana Abdelwahab</strong><br>
-              <small>hana.m.abdelwahab3@gmail.com</small>
-            </div>
-          </li>
-          
-          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-clock-rotate-left me-2"></i> History</a></li>
-          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+<nav class="navbar navbar-expand-lg px-5" style="margin-top:0rem;">
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/ppt/Principles-Project/App/view/Includes/NavBar.php'; ?>
 </nav>
 
 <div class="container mt-4">
@@ -375,7 +327,7 @@ try {
   // Set the Rent Now button link dynamically
   const carId = button.getAttribute('data-id');
   const rentNowBtn = document.getElementById('rentNowBtn');
-  rentNowBtn.href = `booking.php?car_id=${carId}`;
+  rentNowBtn.href = `App/view/booking.php?car_id=${carId}`;
 });
 
   </script>

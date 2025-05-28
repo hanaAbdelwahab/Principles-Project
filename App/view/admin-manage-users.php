@@ -1,4 +1,21 @@
 <?php
+session_start();
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    // Clear session and destroy
+    $_SESSION = [];
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
+
+    // Redirect after logout
+    header("Location: Homepage.php");
+    exit;
+}
 require_once __DIR__ . '/../Controller/AdminUserController.php';
 require_once __DIR__ . '/../Model/AdminUser.php';
 
@@ -103,6 +120,9 @@ $users = array_filter($controller->getAllUsers(), function($user) use ($search, 
                   <li class="nav-item">
                 <a href="admin-manage-bookings.php"><span>Manage Bookings</span></a>
             </li>
+            <li class="nav-item">
+      <a href="?action=logout"><span>Logout</span></a> <!-- Added logout link -->
+    </li>
             </ul>
         </nav>
     </aside>

@@ -1,4 +1,21 @@
 <?php
+session_start();
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    // Clear session and destroy
+    $_SESSION = [];
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
+
+    // Redirect after logout
+    header("Location: Homepage.php");
+    exit;
+}
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -112,6 +129,9 @@ try {
                       <li class="nav-item">
                 <a href="admin-manage-bookings.php"><span>Manage Bookings</span></a>
             </li>
+            <li class="nav-item">
+      <a href="?action=logout"><span>Logout</span></a> <!-- Added logout link -->
+    </li>
                 </ul>
             </nav>
   </aside>

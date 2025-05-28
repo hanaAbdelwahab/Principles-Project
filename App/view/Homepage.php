@@ -32,13 +32,13 @@ $username = $isLoggedIn ? $_SESSION['user_name'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CarHub - Rent the Best Car Around the World</title>
-    <base href="/Final-Principles/">
+    <base href="/ppt/Principles-Project/">
     <link rel="stylesheet" href="Public/css/Homepage.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
-      <?php include $_SERVER['DOCUMENT_ROOT'] . '/Final-Principles/App/view/Includes/NavBar.php'; ?>
+      <?php include $_SERVER['DOCUMENT_ROOT'] . '/ppt/Principles-Project/App/view/Includes/NavBar.php'; ?>
 
     <section class="hero">
         <div class="container">
