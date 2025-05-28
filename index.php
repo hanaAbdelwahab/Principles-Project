@@ -23,25 +23,36 @@ extract($data); // make $cars, $brands, etc. available
 $page = $_GET['page'] ?? 'home';
 $action = $_GET['action'] ?? 'index';
 
-// Initialize controller based on page
 switch ($page) {
-     case 'booking':
-        require_once 'App/Controller/BookingController.php';
-        $controller = new App\Controller\BookingController($db);
-        break;
     case 'payment':
         require_once 'App/Controller/PaymentController.php';
-        $controller = new App\Controller\PaymentController($db);
+        $controller = new App\Controller\PaymentController($pdo);
+        
+        if ($action === 'process') {
+            $controller->processPayment();
+        } else {
+            $controller->index();
+        }
         break;
-    case 'booking_confirmation':
-        // You can create a confirmation controller/page if needed
-        require_once 'App/View/booking_confirmation.php';
-        exit;
+
+    case 'booking':
+        require_once 'App/Controller/BookingController.php';
+        $controller = new App\Controller\BookingController($pdo);
+        
+        if ($action === 'process') {
+            $controller->processBooking();  // or your actual method name for booking processing
+        } else {
+            $controller->index();
+        }
+        break;
+
+    // other cases...
+
     default:
-        // Redirect to booking page for now
-        header('Location: index.php?page=booking');
+        header('Location: ' . BASE_URL . '/index.php?page=booking');
         exit;
 }
+
 switch ($action) {
     case 'process':
         $controller->{'process' . ucfirst($page)}();

@@ -49,6 +49,38 @@ try {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link href="<?= BASE_URL ?>/Public/css/codeListing.css" rel="stylesheet"/>
 <style>
+  .dropdown-menu {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 150px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  z-index: 9999;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  translate:-15rem -0.5rem;
+}
+
+/* Show dropdown when active or hovered */
+.dropdown:hover > .dropdown-menu,
+.dropdown.open > .dropdown-menu {
+  display: block;
+}
+
+/* Dropdown item styles */
+.dropdown-item {
+  display: block;
+  padding: 8px 15px;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #eee;
+}
 </style>
 </head>
 <body>
@@ -60,11 +92,7 @@ try {
   <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
   <li class="nav-item"><a class="nav-link" href="#">Cars</a></li>
   <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-  <li class="nav-item">
-    <button id="themeToggle" class="btn btn-sm text-white" title="Toggle Dark/Light Mode">
-      <i class="fas fa-sun"></i>
-    </button>
-  </li>
+  <li class="nav-item"><a class="nav-link" href="#">View profile</a></li>
 </ul>
 
     <ul class="navbar-nav ms-auto">
@@ -81,7 +109,7 @@ try {
               <small>hana.m.abdelwahab3@gmail.com</small>
             </div>
           </li>
-          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user me-2"></i> View profile</a></li>
+          
           <li><a class="dropdown-item" href="#"><i class="fa-solid fa-clock-rotate-left me-2"></i> History</a></li>
           <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
         </ul>

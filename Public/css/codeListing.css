@@ -18,7 +18,9 @@ body {
     .navbar-brand,
     .nav-link,
     .dropdown-toggle {
+      display: flex;
       color: white !important;
+      z-index: 99999;
   
     }
     .navbar-nav .nav-link {
@@ -59,6 +61,7 @@ body {
     .dropdown-menu {
       min-width: 250px;
       font-size: 0.9rem;
+      z-index: 9999;
     }
     .dropdown-item i {
       width: 20px;
@@ -729,4 +732,35 @@ body.light-mode .search-box{
   border: 1px solid rgba(161, 161, 161, 0.1);
   color: white; /* light text for dark background */
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 150px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  z-index: 9999;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Show dropdown when active or hovered */
+.dropdown:hover > .dropdown-menu,
+.dropdown.open > .dropdown-menu {
+  display: block;
+}
+
+/* Dropdown item styles */
+.dropdown-item {
+  display: block;
+  padding: 8px 15px;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #eee;
 }
